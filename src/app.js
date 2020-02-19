@@ -79,12 +79,29 @@ const flags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-function createTest(page, measurements) {
+const iterations = 3;
+
+function createTestPage(page, measurements, iterations) {
   return (result, data) => {
     return new Promise((resolve, reject) => {
-      console.log(`Starting test: ${page.name}`);
+      (async () => {
+        let lastITestIteration;
+        for (let i = 1; i <= iterations; i++) {
+          console.log(i);
+          lastITestIteration = await createTestIteration(page, measurements, i);
+        }
+        resolve();
+      })();
+    })
+  }
+}
 
-      launchChromeAndRunLighthouse(page.url, flags).then(results => {
+function createTestIteration(page, measurements, iteration) {
+  return new Promise((resolve, reject) => {
+    console.log(`Starting test: ${page.name}, iterations: ${iteration}`);
+
+    launchChromeAndRunLighthouse(page.url, flags)
+      .then(results => {
         for (let audit of audits) {
           const score = results.audits[audit].score;
           const value = results.audits[audit].rawValue;
@@ -97,10 +114,10 @@ function createTest(page, measurements) {
               site: 'some-site',
               page: page.name,
               url: page.url,
-              tag: '1.29',
+              tag: '1.31',
               device: 'desktop',
               throttling: 'off',
-              iteration: '1',
+              iteration,
             },
             fields: {
               score: score,
@@ -110,8 +127,7 @@ function createTest(page, measurements) {
         }
         resolve();
       });
-    });
-  }
+  });
 }
 
 function progressCallback(progress) {
@@ -121,7 +137,10 @@ function progressCallback(progress) {
 
 function doTests() {
   const measurements = [];
-  const tests = env.urls.map(url => createTest(url, measurements));
+  const tests = env.urls.map(url => {
+      return createTestPage(url, measurements, iterations)
+    }
+  );
 
   promiseSerial(tests, {}, progressCallback)
     .then((results) => {
