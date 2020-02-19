@@ -2,7 +2,7 @@ const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 const Influx = require('influx');
 
-const env = require('./' + process.env.LIGHTHOUSE_SETTINGS);
+const env = require('./env.settings');
 
 const promiseSerial = (funcs, data, cb) =>
 	funcs.reduce((promise, func, i, arr) =>
