@@ -30,11 +30,12 @@ const schemaItems = [
 const tags = [
   'environment',
   'site',
-  'uri',
-  'name',
+  'page',
+  'url',
   'tag',
   'device',
   'throttling',
+  'iteration',
 ]
 
 const schema = schemaItems.map(schemaItem => {
@@ -78,12 +79,12 @@ const flags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-function createTest(url, measurements) {
+function createTest(page, measurements) {
   return (result, data) => {
     return new Promise((resolve, reject) => {
-      console.log(`Starting test: ${url.name}`);
+      console.log(`Starting test: ${page.name}`);
 
-      launchChromeAndRunLighthouse(url.url, flags).then(results => {
+      launchChromeAndRunLighthouse(page.url, flags).then(results => {
         for (let audit of audits) {
           const score = results.audits[audit].score;
           const value = results.audits[audit].rawValue;
@@ -94,11 +95,12 @@ function createTest(url, measurements) {
             tags: {
               environment: env.environment,
               site: 'some-site',
-              uri: url.url,
-              name: url.name,
-              tag: '1.26',
+              page: page.name,
+              url: page.url,
+              tag: '1.29',
               device: 'desktop',
-              throttling: 'off'
+              throttling: 'off',
+              iteration: '1',
             },
             fields: {
               score: score,
