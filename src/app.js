@@ -59,7 +59,7 @@ schema.push({
 });
 
 const influx = new Influx.InfluxDB({
-  host: 'localhost',
+  host: 'fosemberg.dev.test-ru.dom',
   database: 'lighthouse',
   schema,
 });
@@ -79,7 +79,7 @@ const flags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-const iterations = 3;
+const iterations = 2;
 
 function createTestPage(page, measurements, iterations) {
   return (result, data) => {
@@ -114,7 +114,7 @@ function createTestIteration(page, measurements, iteration) {
               site: 'some-site',
               page: page.name,
               url: page.url,
-              tag: '1.31',
+              tag: '1.32',
               device: 'desktop',
               throttling: 'off',
               iteration,

@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node src/app.js"
+  },
   "dependencies": {
     "influx": "^5.0.7",
     "lighthouse": "3.2.1"
