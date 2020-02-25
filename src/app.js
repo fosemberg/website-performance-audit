@@ -4,6 +4,8 @@ const Influx = require('influx');
 
 const env = require('./env.settings');
 
+const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig} = env;
+
 const promiseSerial = (funcs, data, cb) =>
   funcs.reduce((promise, func, i, arr) =>
     promise.then(results => func(results[i - 1], data).then(result => {
@@ -59,11 +61,9 @@ schema.push({
 });
 
 const influx = new Influx.InfluxDB({
-  ...env.influxDB,
+  ...influxDBConfig,
   schema,
 });
-
-const {chromeFlags, lighthouseFlags} = env;
 
 function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {}, lighthouseConfig = null) {
   return chromeLauncher.launch({chromeFlags})
