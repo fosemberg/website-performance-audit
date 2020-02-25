@@ -4,7 +4,8 @@ const Influx = require('influx');
 
 const env = require('./env.settings');
 
-const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig} = env;
+const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations} = env;
+const {input: {environment, siteName, siteTag}} = env;
 
 const schemaItems = [
   {measurement: 'first-contentful-paint', score: Influx.FieldType.INTEGER},
@@ -75,24 +76,45 @@ function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-const iterations = 1;
-
-async function createTestPage(page, iterations) {
+async function createTestSite(page, iterations) {
   const measurements = [];
   for (let i = 1; i <= iterations; i++) {
     console.log(i);
-    const iterationMeasurements = await createTestIteration(page, i);
+    const iterationMeasurements = await createTestIteration(
+      {
+        environment,
+        site: siteName,
+        tag: siteTag,
+        page: page.name,
+        url: page.url,
+        device: 'desktop',
+        throttling: 'off',
+        iteration: i,
+      },
+      chromeFlags,
+      lighthouseFlags
+    );
     measurements.push(...iterationMeasurements);
   }
 
   return measurements;
 }
 
-function createTestIteration(page, iteration) {
-  return new Promise((resolve, reject) => {
-    console.log(`Starting test: ${page.name}, iterations: ${iteration}`);
+// tags
+// environment: env.environment,
+// site: 'some-site',
+// page: page.name,
+// url: page.url,
+// tag: '1.32',
+// device: 'desktop',
+// throttling: 'off',
+// iteration,
 
-    launchChromeAndRunLighthouse(page.url, chromeFlags, lighthouseFlags)
+function createTestIteration(tags, chromeFlags, lighthouseFlags) {
+  return new Promise((resolve, reject) => {
+    console.log(`Starting test: ${tags.url}, iterations: ${tags.iteration}`);
+
+    launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
       .then(results => {
         const measurements = [];
         for (let audit of audits) {
@@ -102,16 +124,7 @@ function createTestIteration(page, iteration) {
 
           const measurement = {
             measurement: audit,
-            tags: {
-              environment: env.environment,
-              site: 'some-site',
-              page: page.name,
-              url: page.url,
-              tag: '1.32',
-              device: 'desktop',
-              throttling: 'off',
-              iteration,
-            },
+            tags,
             fields: {
               score: score,
               value: value
@@ -133,7 +146,7 @@ async function doTests() {
   const measurements = [];
 
   for (const url of env.urls) {
-    const measurementPack = await createTestPage(url, iterations);
+    const measurementPack = await createTestSite(url, iterations);
     measurements.push(...measurementPack);
   }
 

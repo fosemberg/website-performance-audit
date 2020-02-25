@@ -8,6 +8,15 @@ module.exports = {
   // DELETE LEGACY }
 
 
+  // WILL COME FROM API {
+  input: {
+    environment: "trunk",
+    siteName: "some-site",
+    siteTag: "1.32",
+  },
+  // WILL COME FROM API }
+
+  iterations: 1,
   influxDB: {
     host: 'fosemberg.dev.test-ru.dom',
     database: 'lighthouse',
