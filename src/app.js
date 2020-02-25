@@ -6,13 +6,6 @@ const env = require('./env.settings');
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig} = env;
 
-const promiseSerial = (funcs, data, cb) =>
-  funcs.reduce((promise, func, i, arr) =>
-    promise.then(results => func(results[i - 1], data).then(result => {
-      cb && cb((i + 1) / arr.length);
-      return results.concat(result);
-    })), Promise.resolve([]));
-
 const schemaItems = [
   {measurement: 'first-contentful-paint', score: Influx.FieldType.INTEGER},
   {measurement: 'first-cpu-idle', score: Influx.FieldType.INTEGER},
@@ -82,30 +75,26 @@ function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-const iterations = 2;
+const iterations = 1;
 
-function createTestPage(page, measurements, iterations) {
-  return (result, data) => {
-    return new Promise((resolve, reject) => {
-      (async () => {
-        let lastITestIteration;
-        for (let i = 1; i <= iterations; i++) {
-          console.log(i);
-          lastITestIteration = await createTestIteration(page, measurements, i);
-        }
-        console.log(lastITestIteration)
-        resolve();
-      })();
-    })
+async function createTestPage(page, iterations) {
+  const measurements = [];
+  for (let i = 1; i <= iterations; i++) {
+    console.log(i);
+    const iterationMeasurements = await createTestIteration(page, i);
+    measurements.push(...iterationMeasurements);
   }
+
+  return measurements;
 }
 
-function createTestIteration(page, measurements, iteration) {
+function createTestIteration(page, iteration) {
   return new Promise((resolve, reject) => {
     console.log(`Starting test: ${page.name}, iterations: ${iteration}`);
 
     launchChromeAndRunLighthouse(page.url, chromeFlags, lighthouseFlags)
       .then(results => {
+        const measurements = [];
         for (let audit of audits) {
           const score = results.audits[audit].score;
           const value = results.audits[audit].rawValue;
@@ -140,35 +129,35 @@ function progressCallback(progress) {
 }
 
 
-function doTests() {
+async function doTests() {
   const measurements = [];
-  const tests = env.urls.map(url => {
-      return createTestPage(url, measurements, iterations)
-    }
-  );
 
-  promiseSerial(tests, {}, progressCallback)
-    .then((results) => {
-      console.log('Writing results');
+  for (const url of env.urls) {
+    const measurementPack = await createTestPage(url, iterations);
+    measurements.push(...measurementPack);
+  }
 
-      influx.getDatabaseNames()
-        .then(names => {
-          if (!names.includes('lighthouse')) {
-            influx.createDatabase('lighthouse');
-            return influx.createRetentionPolicy('lighthouse', {
-              duration: '30d',
-              database: 'lighthouse',
-              replication: 1,
-              isDefault: true
-            })
+  console.log('doTest() measurements = ', JSON.stringify(measurements));
 
-          }
+  console.log('Writing results');
+
+  influx.getDatabaseNames()
+    .then(names => {
+      if (!names.includes('lighthouse')) {
+        influx.createDatabase('lighthouse');
+        return influx.createRetentionPolicy('lighthouse', {
+          duration: '30d',
+          database: 'lighthouse',
+          replication: 1,
+          isDefault: true
         })
+
+      }
+    })
+    .then(() => {
+      influx.writePoints(measurements)
         .then(() => {
-          influx.writePoints(measurements)
-            .then(() => {
-              console.log('Tests are done');
-            });
+          console.log('Tests are done');
         });
     });
 }

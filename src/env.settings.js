@@ -3,14 +3,13 @@ module.exports = {
   environment: 'trunk',
   urls: [
     {name: 'dev', url: 'http://test.fosemberg.dev.test-ru.dom/index.html'},
-    {name: 'local', url: 'http://localhost:82/index.html'}
+    // {name: 'local', url: 'http://localhost:82/index.html'}
   ],
   // DELETE LEGACY }
 
 
   influxDB: {
     host: 'fosemberg.dev.test-ru.dom',
-    port: 8086,
     database: 'lighthouse',
   },
   chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
