@@ -4,7 +4,7 @@ const Influx = require('influx');
 
 const env = require('./env.settings');
 
-const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations} = env;
+const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
 const {input: {environment, siteName, siteTag}} = env;
 
 const schemaItems = [
@@ -23,15 +23,16 @@ const schemaItems = [
   {measurement: 'render-blocking-resources', score: Influx.FieldType.INTEGER}
 ];
 
-const tags = [
+const schemaItemTags = [
   'environment',
   'site',
   'page',
   'url',
   'tag',
+  'iteration',
   'device',
   'throttling',
-  'iteration',
+  ...tags.map(tag => tag.name)
 ];
 
 const schema = schemaItems.map(schemaItem => {
@@ -41,7 +42,7 @@ const schema = schemaItems.map(schemaItem => {
       score: schemaItem.score,
       value: Influx.FieldType.FLOAT
     },
-    tags,
+    schemaItemTags,
   };
 });
 
@@ -51,7 +52,7 @@ schema.push({
     score: Influx.FieldType.INTEGER,
     value: Influx.FieldType.FLOAT
   },
-  tags,
+  schemaItemTags,
 });
 
 const influx = new Influx.InfluxDB({
@@ -78,23 +79,28 @@ const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
 async function createTestSite(page, iterations) {
   const measurements = [];
-  for (let i = 1; i <= iterations; i++) {
-    console.log(i);
-    const iterationMeasurements = await createTestIteration(
-      {
-        environment,
-        site: siteName,
-        tag: siteTag,
-        page: page.name,
-        url: page.url,
-        device: 'desktop',
-        throttling: 'off',
-        iteration: i,
-      },
-      chromeFlags,
-      lighthouseFlags
-    );
-    measurements.push(...iterationMeasurements);
+
+  modTagNames = tags.map(tag => tag.name);
+
+  for (const tag of tags) {
+    for (let i = 1; i <= iterations; i++) {
+      console.log(i);
+      const iterationMeasurements = await createTestIteration(
+        {
+          environment,
+          site: siteName,
+          tag: siteTag,
+          page: page.name,
+          url: page.url,
+          device: 'desktop',
+          throttling: 'off',
+          iteration: i,
+        },
+        chromeFlags,
+        lighthouseFlags
+      );
+      measurements.push(...iterationMeasurements);
+    }
   }
 
   return measurements;
