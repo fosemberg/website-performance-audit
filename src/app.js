@@ -36,7 +36,7 @@ const tags = [
   'device',
   'throttling',
   'iteration',
-]
+];
 
 const schema = schemaItems.map(schemaItem => {
   return {
@@ -59,23 +59,30 @@ schema.push({
 });
 
 const influx = new Influx.InfluxDB({
-  host: 'fosemberg.dev.test-ru.dom',
-  database: 'lighthouse',
+  ...env.influxDB,
   schema,
 });
-
-function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
-  return chromeLauncher.launch(flags).then(chrome => {
-    flags.port = chrome.port;
-    return lighthouse(url, flags, config).then(results =>
-      chrome.kill().then(() => results.lhr));
-  });
-}
 
 const flags = {
   chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
   onlyCategories: ['performance']
 };
+
+const {chromeFlags, ...lighthouseFlags} = flags;
+
+
+function launchChromeAndRunLighthouse(url, chromeFlags, lighthouseFlags = {}, config = null) {
+  return chromeLauncher.launch(chromeFlags)
+    .then(chrome => {
+      const { port } = chrome;
+      const _lighthouseFlags = {
+        ...lighthouseFlags,
+        port,
+      }
+      return lighthouse(url, _lighthouseFlags, config).then(results =>
+        chrome.kill().then(() => results.lhr));
+    });
+}
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
@@ -90,6 +97,7 @@ function createTestPage(page, measurements, iterations) {
           console.log(i);
           lastITestIteration = await createTestIteration(page, measurements, i);
         }
+        console.log(lastITestIteration)
         resolve();
       })();
     })
@@ -107,7 +115,7 @@ function createTestIteration(page, measurements, iteration) {
           const value = results.audits[audit].rawValue;
           console.log('audit: ' + audit + ' value: ' + value);
 
-          measurements.push({
+          const measurement = {
             measurement: audit,
             tags: {
               environment: env.environment,
@@ -123,9 +131,10 @@ function createTestIteration(page, measurements, iteration) {
               score: score,
               value: value
             }
-          });
+          }
+          measurements.push(measurement);
         }
-        resolve();
+        resolve(measurements);
       });
   });
 }
