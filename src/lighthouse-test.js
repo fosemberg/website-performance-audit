@@ -25,9 +25,9 @@ function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
   })
     .then(chrome => {
       flags.port = chrome.port;
-      return lighthouse(url, flags, {
-        extends: "lighthouse:default",
-        settings: {
+      return lighthouse(url,
+        {
+          port: chrome.port,
           onlyCategories: ["performance"],
           output: "html",
           throttling: {
@@ -35,7 +35,7 @@ function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
           },
           emulatedFormFactor: "desktop"
         }
-      })
+        , config)
         .then(results =>
           chrome.kill()
             .then(() => results.report)

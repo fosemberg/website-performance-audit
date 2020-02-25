@@ -63,24 +63,20 @@ const influx = new Influx.InfluxDB({
   schema,
 });
 
-const flags = {
-  chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
-  onlyCategories: ['performance']
-};
+const {chromeFlags, lighthouseFlags} = env;
 
-const {chromeFlags, ...lighthouseFlags} = flags;
-
-
-function launchChromeAndRunLighthouse(url, chromeFlags, lighthouseFlags = {}, config = null) {
-  return chromeLauncher.launch(chromeFlags)
+function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {}, lighthouseConfig = null) {
+  return chromeLauncher.launch({chromeFlags})
     .then(chrome => {
-      const { port } = chrome;
+      const {port} = chrome;
       const _lighthouseFlags = {
         ...lighthouseFlags,
         port,
       }
-      return lighthouse(url, _lighthouseFlags, config).then(results =>
-        chrome.kill().then(() => results.lhr));
+      return lighthouse(url, _lighthouseFlags, lighthouseConfig)
+        .then(results =>
+          chrome.kill()
+            .then(() => results.lhr));
     });
 }
 
@@ -108,7 +104,7 @@ function createTestIteration(page, measurements, iteration) {
   return new Promise((resolve, reject) => {
     console.log(`Starting test: ${page.name}, iterations: ${iteration}`);
 
-    launchChromeAndRunLighthouse(page.url, flags)
+    launchChromeAndRunLighthouse(page.url, chromeFlags, lighthouseFlags)
       .then(results => {
         for (let audit of audits) {
           const score = results.audits[audit].score;

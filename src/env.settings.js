@@ -57,13 +57,13 @@
 //       values: [
 //         {
 //           name: "mobile",
-//           lighthouseConfigSettings: {
+//           lighthouseFlags: {
 //             emulatedFormFactor: "mobile"
 //           },
 //         },
 //         {
 //           name: "desktop",
-//           lighthouseConfigSettings: {
+//           lighthouseFlags: {
 //             emulatedFormFactor: "desktop"
 //           },
 //         }
@@ -74,11 +74,11 @@
 //       values: [
 //         {
 //           name: "Off",
-//           lighthouseConfigSettings: {},
+//           lighthouseFlags: {},
 //         },
 //         {
 //           name: "mobile3G",
-//           lighthouseConfigSettings: {
+//           lighthouseFlags: {
 //             throttling: {
 //               downloadThroughputKbps: 1000
 //             }
@@ -112,14 +112,9 @@ module.exports = {
     host: 'fosemberg.dev.test-ru.dom',
     database: 'lighthouse',
   },
-  chromeFlags: [
-    '--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'
-  ],
-  lighthouseConfig: {
-    extends: "lighthouse:default",
-    settings: {
+  chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
+  lighthouseFlags: {
       onlyCategories: ["performance"],
-    }
   },
   environments: [
     {
@@ -170,13 +165,13 @@ module.exports = {
       values: [
         {
           name: "mobile",
-          lighthouseConfigSettings: {
+          lighthouseFlags: {
             emulatedFormFactor: "mobile"
           },
         },
         {
           name: "desktop",
-          lighthouseConfigSettings: {
+          lighthouseFlags: {
             emulatedFormFactor: "desktop"
           },
         }
@@ -187,11 +182,11 @@ module.exports = {
       values: [
         {
           name: "Off",
-          lighthouseConfigSettings: {},
+          lighthouseFlags: {},
         },
         {
           name: "mobile3G",
-          lighthouseConfigSettings: {
+          lighthouseFlags: {
             throttling: {
               downloadThroughputKbps: 1000
             }
