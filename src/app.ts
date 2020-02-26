@@ -2,7 +2,7 @@ const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 const Influx = require('influx');
 
-const env = require('./env.settings');
+const env = require('./env');
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
 const {input: {environment, siteName, siteTag}} = env;
@@ -80,7 +80,7 @@ const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 async function createTestSite(page, iterations) {
   const measurements = [];
 
-  modTagNames = tags.map(tag => tag.name);
+  const modTagNames = tags.map(tag => tag.name);
 
   for (const tag of tags) {
     for (let i = 1; i <= iterations; i++) {

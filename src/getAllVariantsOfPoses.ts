@@ -3,7 +3,7 @@
  * @param arr - входной массив
  * @returns {boolean}
  */
-const checkIsAllZerosInArray = (arr: number[]) => !arr.join('').replace(/0/g,'');
+const checkIsAllZerosInArray = (arr: number[]) => !arr.join('').replace(/0/g, '');
 
 /**
  * @param lengths - длины массивов
@@ -13,7 +13,7 @@ const checkIsAllZerosInArray = (arr: number[]) => !arr.join('').replace(/0/g,'')
  * @param cur - текущая позиция
  * @returns {Array.<Array.<number>>}
  */
-export const getAllVariantsOfPoses = (lengths: number[], posesMax = [...lengths], allVariantsOfPoses = [], isShift = false, cur = 0): Array<Array<number>> => {
+export const getAllVariantsOfPoses = (lengths: number[], posesMax = [...lengths], allVariantsOfPoses: Array<Array<number>> = [], isShift = false, cur = 0): Array<Array<number>> => {
   if (!isShift) {
     allVariantsOfPoses.push(lengths);
   }

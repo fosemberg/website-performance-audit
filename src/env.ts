@@ -1,4 +1,6 @@
-module.exports = {
+import {Env} from './types';
+
+export const env: Env = {
   // DELETE LEGACY {
   environment: 'trunk',
   urls: [
@@ -23,7 +25,7 @@ module.exports = {
   },
   chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
   lighthouseFlags: {
-      onlyCategories: ["performance"],
+    onlyCategories: ["performance"],
   },
   environments: [
     {
@@ -62,8 +64,8 @@ module.exports = {
           url: "/index.html"
         },
         {
-          name: "some",
-          url: "/some.html"
+          name: "pamm",
+          url: "/pamm.html"
         }
       ]
     },
@@ -98,7 +100,7 @@ module.exports = {
           lighthouseFlags: {
             throttling: {
               downloadThroughputKbps: 1000
-            }
+            },
           },
         }
       ]

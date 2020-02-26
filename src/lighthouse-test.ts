@@ -19,6 +19,14 @@ const config = {
   }
 }
 
+interface Interface extends LH.Environment {
+  soem: string
+}
+
+export interface LHFlags extends LH.Flags {
+  chromePath: string;
+}
+
 function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
   return chromeLauncher.launch({
     chromeFlags: [],

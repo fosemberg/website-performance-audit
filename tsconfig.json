@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "./build",
+    "noImplicitAny": false
+  },
+  "typeRoots": [
+    "@types",
+    "node_modules/lighthouse/types"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./node_modules/lighthouse/typings/**/*.d.ts"
+  ]
+}
