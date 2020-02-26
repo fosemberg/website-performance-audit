@@ -1,13 +1,17 @@
-const lighthouse = require('lighthouse');
-const chromeLauncher = require('chrome-launcher');
-const Influx = require('influx');
-
-const env = require('./env');
+import lighthouse from 'lighthouse/lighthouse-core';
+import * as chromeLauncher from 'chrome-launcher';
+import Influx, {IPoint, ISchemaOptions} from 'influx';
+import { env } from './env';
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
 const {input: {environment, siteName, siteTag}} = env;
 
-const schemaItems = [
+interface SchemaItem {
+  measurement: string,
+  score: Influx.FieldType,
+}
+
+const schemaItems: Array<SchemaItem> = [
   {measurement: 'first-contentful-paint', score: Influx.FieldType.INTEGER},
   {measurement: 'first-cpu-idle', score: Influx.FieldType.INTEGER},
   {measurement: 'first-meaningful-paint', score: Influx.FieldType.INTEGER},
@@ -23,7 +27,7 @@ const schemaItems = [
   {measurement: 'render-blocking-resources', score: Influx.FieldType.INTEGER}
 ];
 
-const schemaItemTags = [
+const schemaItemTags: Array<string> = [
   'environment',
   'site',
   'page',
@@ -35,14 +39,14 @@ const schemaItemTags = [
   ...tags.map(tag => tag.name)
 ];
 
-const schema = schemaItems.map(schemaItem => {
+const schema: ISchemaOptions[] = schemaItems.map(schemaItem => {
   return {
     measurement: schemaItem.measurement,
     fields: {
       score: schemaItem.score,
       value: Influx.FieldType.FLOAT
     },
-    schemaItemTags,
+    tags: schemaItemTags,
   };
 });
 
@@ -52,7 +56,7 @@ schema.push({
     score: Influx.FieldType.INTEGER,
     value: Influx.FieldType.FLOAT
   },
-  schemaItemTags,
+  tags: schemaItemTags,
 });
 
 const influx = new Influx.InfluxDB({
@@ -60,14 +64,14 @@ const influx = new Influx.InfluxDB({
   schema,
 });
 
-function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {}, lighthouseConfig = null) {
+function launchChromeAndRunLighthouse(url, chromeFlags = [], lighthouseFlags = {}, lighthouseConfig = null) {
   return chromeLauncher.launch({chromeFlags})
     .then(chrome => {
       const {port} = chrome;
       const _lighthouseFlags = {
         ...lighthouseFlags,
         port,
-      }
+      };
       return lighthouse(url, _lighthouseFlags, lighthouseConfig)
         .then(results =>
           chrome.kill()
@@ -77,9 +81,8 @@ function launchChromeAndRunLighthouse(url, chromeFlags = {}, lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-async function createTestSite(page, iterations) {
-  const measurements = [];
-
+async function createTestSite(page, iterations): Promise<Array<IPoint>> {
+  const measurements: Array<IPoint> = [];
   const modTagNames = tags.map(tag => tag.name);
 
   for (const tag of tags) {
@@ -116,26 +119,26 @@ async function createTestSite(page, iterations) {
 // throttling: 'off',
 // iteration,
 
-function createTestIteration(tags, chromeFlags, lighthouseFlags) {
+function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise< Array<IPoint>> {
   return new Promise((resolve, reject) => {
     console.log(`Starting test: ${tags.url}, iterations: ${tags.iteration}`);
 
     launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
       .then(results => {
-        const measurements = [];
+        const measurements: Array<IPoint> = [];
         for (let audit of audits) {
           const score = results.audits[audit].score;
           const value = results.audits[audit].rawValue;
           console.log('audit: ' + audit + ' value: ' + value);
 
-          const measurement = {
+          const measurement: IPoint = {
             measurement: audit,
             tags,
             fields: {
               score: score,
               value: value
             }
-          }
+          };
           measurements.push(measurement);
         }
         resolve(measurements);
@@ -149,14 +152,14 @@ function progressCallback(progress) {
 
 
 async function doTests() {
-  const measurements = [];
+  const points: Array<IPoint> = [];
 
   for (const url of env.urls) {
     const measurementPack = await createTestSite(url, iterations);
-    measurements.push(...measurementPack);
+    points.push(...measurementPack);
   }
 
-  console.log('doTest() measurements = ', JSON.stringify(measurements));
+  console.log('doTest() measurements = ', JSON.stringify(points));
 
   console.log('Writing results');
 
@@ -174,7 +177,7 @@ async function doTests() {
       }
     })
     .then(() => {
-      influx.writePoints(measurements)
+      influx.writePoints(points)
         .then(() => {
           console.log('Tests are done');
         });

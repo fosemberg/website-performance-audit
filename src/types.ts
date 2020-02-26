@@ -1,3 +1,5 @@
+import {ISingleHostConfig} from "influx";
+
 interface Url {
   name: string,
   url: string,
@@ -42,10 +44,7 @@ export interface Env {
 
   input: Input
   iterations: number,
-  influxDB: {
-    host: string,
-    database: string,
-  },
+  influxDB: ISingleHostConfig,
   chromeFlags: Array<string>,
   lighthouseFlags: LH.SharedFlagsSettings,
   environments: Array<Environment>,

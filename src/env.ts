@@ -21,6 +21,7 @@ export const env: Env = {
   iterations: 1,
   influxDB: {
     host: 'fosemberg.dev.test-ru.dom',
+    port: 8086,
     database: 'lighthouse',
   },
   chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
