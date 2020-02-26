@@ -23,9 +23,5 @@ const getAllVariantsOfPoses = (poses, posesMax = [...poses], allVariantsOfPoses 
   }
   return allVariantsOfPoses;
 };
-poses = [1,2];
 
-console.log('poses before: ', poses);
-const allVariantsOfPoses = getAllVariantsOfPoses(poses);
-console.log('poses after: ', poses);
-console.log('allVariantsOfPoses: ', allVariantsOfPoses);
+module.exports = getAllVariantsOfPoses;

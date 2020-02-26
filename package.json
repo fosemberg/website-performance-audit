@@ -1,9 +1,13 @@
 {
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "jest"
   },
   "dependencies": {
     "influx": "^5.0.7",
     "lighthouse": "3.2.1"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }
