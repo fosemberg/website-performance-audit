@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "ts-node src/app.ts",
-    "build": "tsc --project ./tsconfig.json",
+    "build": "tsc -p ./tsconfig.json",
     "run": "npm run build && node ./build/app.js",
     "start": "node ./build/app.js",
     "test": "jest"

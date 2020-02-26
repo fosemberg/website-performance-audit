@@ -16,6 +16,7 @@
     "./node_modules/lighthouse/typings"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./node_modules/lighthouse/typings/**/*.d.ts"
   ]
 }

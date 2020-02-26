@@ -28,7 +28,7 @@ interface SitePages {
 
 interface TagValue {
   name: string,
-  lighthouseFlags: LH.SharedFlagsSettings
+  lighthouseFlags: any
 }
 
 interface Tag {
@@ -46,7 +46,7 @@ export interface Env {
   iterations: number,
   influxDB: ISingleHostConfig,
   chromeFlags: Array<string>,
-  lighthouseFlags: LH.SharedFlagsSettings,
+  lighthouseFlags: any,
   environments: Array<Environment>,
   sites: Array<SitePages>,
   tags: Array<Tag>
