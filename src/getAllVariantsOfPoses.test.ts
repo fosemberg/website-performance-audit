@@ -1,4 +1,4 @@
-getAllVariantsOfPoses = require('./getAllVariantsOfPoses');
+import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
 
 test('make all variants of poses for [1, 2, 3]: ', () => {
   const inputValue = [1, 2, 3];

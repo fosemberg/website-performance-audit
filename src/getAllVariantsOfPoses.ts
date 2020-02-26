@@ -3,7 +3,7 @@
  * @param arr - входной массив
  * @returns {boolean}
  */
-const checkIsAllZerosInArray = arr => !arr.join('').replace(/0/g,'');
+const checkIsAllZerosInArray = (arr: number[]) => !arr.join('').replace(/0/g,'');
 
 /**
  * @param lengths - длины массивов
@@ -13,7 +13,7 @@ const checkIsAllZerosInArray = arr => !arr.join('').replace(/0/g,'');
  * @param cur - текущая позиция
  * @returns {Array.<Array.<number>>}
  */
-const getAllVariantsOfPoses = (lengths, posesMax = [...lengths], allVariantsOfPoses = [], isShift = false, cur = 0) => {
+export const getAllVariantsOfPoses = (lengths: number[], posesMax = [...lengths], allVariantsOfPoses = [], isShift = false, cur = 0): Array<Array<number>> => {
   if (!isShift) {
     allVariantsOfPoses.push(lengths);
   }
@@ -27,14 +27,12 @@ const getAllVariantsOfPoses = (lengths, posesMax = [...lengths], allVariantsOfPo
       }
       getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, false, 0);
     } else {
-      getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, false, cur, allVariantsOfPoses);
+      getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, false, cur);
     }
   } else {
     if (!checkIsAllZerosInArray(_poses)) {
-      getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, true, cur + 1, allVariantsOfPoses);
+      getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, true, cur + 1);
     }
   }
   return allVariantsOfPoses;
 };
-
-module.exports = getAllVariantsOfPoses;
