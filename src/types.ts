@@ -31,7 +31,7 @@ interface TagValue {
   lighthouseFlags: LH.SharedFlagsSettings
 }
 
-interface Tag {
+export interface Tag {
   name: string,
   values: Array<TagValue>
 }

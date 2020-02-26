@@ -4,6 +4,8 @@ import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from './env';
 import {Site} from "./types";
+import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
+import {getMixedTags} from "./getMixedTags";
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
 const {input: {environment, siteName, siteTag}} = env;
@@ -105,39 +107,45 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
     }
   }
 
+  const mixedTags = getMixedTags(tags);
+  console.log(mixedTags);
 
   const points: Array<IPoint> = [];
   const modTagNames = tags.map(tag => tag.name);
 
   for (const page of pages) {
-    for (let iteration = 1; iteration <= iterations; iteration++) {
-      const pageUrl = `${siteUrl}${page.url}`;
-      const pageName = page.name;
-      console.log('');
-      console.log('iteration', iteration);
-      console.log('environment:', environment);
-      console.log('siteName:', siteName);
-      console.log('siteUrl:', siteUrl);
-      console.log('siteTag:', siteTag);
-      console.log('pageName:', pageName);
-      console.log('pageUrl:', pageUrl);
+    for (const mixedTag of mixedTags) {
+      for (let iteration = 1; iteration <= iterations; iteration++) {
+        const pageUrl = `${siteUrl}${page.url}`;
+        const pageName = page.name;
+        console.log('');
+        console.log('iteration', iteration);
+        console.log('environment:', environment);
+        console.log('siteName:', siteName);
+        console.log('siteUrl:', siteUrl);
+        console.log('siteTag:', siteTag);
+        console.log('pageName:', pageName);
+        console.log('pageUrl:', pageUrl);
+        console.log('tags:', mixedTag.tagNames);
+        console.log('lighthouseFlags:', mixedTag.lighthouseFlags);
 
 
-      // const iterationMeasurements = await createTestIteration(
-      //   {
-      //     environment,
-      //     site: siteName,
-      //     tag: siteTag,
-      //     page: url.name,
-      //     url: url.url,
-      //     device: 'desktop',
-      //     throttling: 'off',
-      //     iteration: i,
-      //   },
-      //   chromeFlags,
-      //   lighthouseFlags
-      // );
-      // points.push(...iterationMeasurements);
+        // const iterationMeasurements = await createTestIteration(
+        //   {
+        //     environment,
+        //     site: siteName,
+        //     tag: siteTag,
+        //     page: url.name,
+        //     url: url.url,
+        //     device: 'desktop',
+        //     throttling: 'off',
+        //     iteration: i,
+        //   },
+        //   chromeFlags,
+        //   lighthouseFlags
+        // );
+        // points.push(...iterationMeasurements);
+      }
     }
   }
   console.log('');

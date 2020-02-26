@@ -2,8 +2,9 @@
   "scripts": {
     "dev": "ts-node src/app.ts",
     "build": "tsc",
-    "start": "npm run build && node ./build/app.js",
-    "test": "jest"
+    "start": "node ./build/app.js",
+    "test": "jest",
+    "build-start": "npm run build && npm run start"
   },
   "dependencies": {
     "influx": "^5.0.7",
