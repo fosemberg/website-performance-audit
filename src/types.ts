@@ -11,7 +11,7 @@ interface Input {
   siteTag: string,
 }
 
-interface Site {
+export interface Site {
   name: string,
   url: string,
 }
@@ -21,7 +21,7 @@ interface Environment {
   sites: Array<Site>
 }
 
-interface SitePages {
+interface SiteWithPages {
   name: string,
   pages: Array<Site>
 }
@@ -48,6 +48,6 @@ export interface Env {
   chromeFlags: Array<string>,
   lighthouseFlags: LH.SharedFlagsSettings,
   environments: Array<Environment>,
-  sites: Array<SitePages>,
+  sites: Array<SiteWithPages>,
   tags: Array<Tag>
 }

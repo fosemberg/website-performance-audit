@@ -3,6 +3,7 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import { env } from './env';
+import {Site} from "./types";
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
 const {input: {environment, siteName, siteTag}} = env;
@@ -82,32 +83,66 @@ function launchChromeAndRunLighthouse(url, chromeFlags = [], lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-async function createTestSite(): Promise<Array<IPoint>> {
-  const points: Array<IPoint> = [];
-  const modTagNames = tags.map(tag => tag.name);
+async function createTestSite(environment: string, siteName: string, siteTag: string): Promise<Array<IPoint>> {
 
-  for (const url of env.urls) {
-    for (const tag of tags) {
-      for (let i = 1; i <= iterations; i++) {
-        console.log(i);
-        const iterationMeasurements = await createTestIteration(
-          {
-            environment,
-            site: siteName,
-            tag: siteTag,
-            page: url.name,
-            url: url.url,
-            device: 'desktop',
-            throttling: 'off',
-            iteration: i,
-          },
-          chromeFlags,
-          lighthouseFlags
-        );
-        points.push(...iterationMeasurements);
+  let siteUrl: string = '';
+  for (const environmentObj of env.environments) {
+    if (environmentObj.name === environment) {
+      for (const environmentSite of environmentObj.sites) {
+        if (environmentSite.name === siteName) {
+          siteUrl = environmentSite.url;
+          break;
+        }
       }
     }
   }
+
+  let pages: Array<Site> = [];
+  for (const siteWithPages of env.sites) {
+    if (siteWithPages.name === siteName) {
+      pages = siteWithPages.pages;
+      break;
+    }
+  }
+
+
+  const points: Array<IPoint> = [];
+  const modTagNames = tags.map(tag => tag.name);
+
+  for (const page of pages) {
+    for (const tag of tags) {
+      for (let iteration = 1; iteration <= iterations; iteration++) {
+        const pageUrl = `${siteUrl}${page.url}`;
+        const pageName = page.name;
+        console.log('');
+        console.log('iteration', iteration);
+        console.log('environment:', environment);
+        console.log('siteName:', siteName);
+        console.log('siteUrl:', siteUrl);
+        console.log('siteTag:', siteTag);
+        console.log('pageName:', pageName);
+        console.log('pageUrl:', pageUrl);
+
+
+        // const iterationMeasurements = await createTestIteration(
+        //   {
+        //     environment,
+        //     site: siteName,
+        //     tag: siteTag,
+        //     page: url.name,
+        //     url: url.url,
+        //     device: 'desktop',
+        //     throttling: 'off',
+        //     iteration: i,
+        //   },
+        //   chromeFlags,
+        //   lighthouseFlags
+        // );
+        // points.push(...iterationMeasurements);
+      }
+    }
+  }
+  console.log('');
 
   return points;
 }
@@ -145,31 +180,31 @@ function progressCallback(progress) {
 
 
 async function doTests() {
-  const points: Array<IPoint> = await createTestSite();
+  const points: Array<IPoint> = await createTestSite(environment, siteName, siteTag);
 
   console.log('doTest() measurements = ', JSON.stringify(points));
 
   console.log('Writing results');
 
-  influx.getDatabaseNames()
-    .then(names => {
-      if (!names.includes('lighthouse')) {
-        influx.createDatabase('lighthouse');
-        return influx.createRetentionPolicy('lighthouse', {
-          duration: '30d',
-          database: 'lighthouse',
-          replication: 1,
-          isDefault: true
-        })
-
-      }
-    })
-    .then(() => {
-      influx.writePoints(points)
-        .then(() => {
-          console.log('Tests are done');
-        });
-    });
+  // influx.getDatabaseNames()
+  //   .then(names => {
+  //     if (!names.includes('lighthouse')) {
+  //       influx.createDatabase('lighthouse');
+  //       return influx.createRetentionPolicy('lighthouse', {
+  //         duration: '30d',
+  //         database: 'lighthouse',
+  //         replication: 1,
+  //         isDefault: true
+  //       })
+  //
+  //     }
+  //   })
+  //   .then(() => {
+  //     influx.writePoints(points)
+  //       .then(() => {
+  //         console.log('Tests are done');
+  //       });
+  //   });
 }
 
 doTests();
