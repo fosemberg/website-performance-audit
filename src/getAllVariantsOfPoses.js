@@ -1,10 +1,23 @@
+/**
+ * проверить все ли значения в массиве являются нулями
+ * @param arr - входной массив
+ * @returns {boolean}
+ */
 const checkIsAllZerosInArray = arr => !arr.join('').replace(/0/g,'');
 
-const getAllVariantsOfPoses = (poses, posesMax = [...poses], allVariantsOfPoses = [], isShift = false, cur = 0) => {
+/**
+ * @param lengths - длины массивов
+ * @param posesMax - максимальные значения позиций (по факту длины массивов)
+ * @param allVariantsOfPoses - все варианты позиций, которые могут быть
+ * @param isShift - идет ли сейчас сдвиг
+ * @param cur - текущая позиция
+ * @returns {Array.<Array.<number>>}
+ */
+const getAllVariantsOfPoses = (lengths, posesMax = [...lengths], allVariantsOfPoses = [], isShift = false, cur = 0) => {
   if (!isShift) {
-    allVariantsOfPoses.push(poses);
+    allVariantsOfPoses.push(lengths);
   }
-  const _poses = [...poses];
+  const _poses = [...lengths];
   if (_poses[cur] !== 0) {
     _poses[cur] -= 1;
     if (isShift) {
