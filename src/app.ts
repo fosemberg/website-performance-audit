@@ -1,6 +1,7 @@
 import lighthouse from 'lighthouse/lighthouse-core';
 import * as chromeLauncher from 'chrome-launcher';
-import Influx, {IPoint, ISchemaOptions} from 'influx';
+import * as Influx from 'influx';
+import {IPoint, ISchemaOptions} from 'influx';
 import { env } from './env';
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
