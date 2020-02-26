@@ -2,7 +2,7 @@ import lighthouse from 'lighthouse/lighthouse-core';
 import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
-import { env } from './env';
+import {env} from './env';
 import {Site} from "./types";
 
 const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
@@ -110,36 +110,34 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
   const modTagNames = tags.map(tag => tag.name);
 
   for (const page of pages) {
-    for (const tag of tags) {
-      for (let iteration = 1; iteration <= iterations; iteration++) {
-        const pageUrl = `${siteUrl}${page.url}`;
-        const pageName = page.name;
-        console.log('');
-        console.log('iteration', iteration);
-        console.log('environment:', environment);
-        console.log('siteName:', siteName);
-        console.log('siteUrl:', siteUrl);
-        console.log('siteTag:', siteTag);
-        console.log('pageName:', pageName);
-        console.log('pageUrl:', pageUrl);
+    for (let iteration = 1; iteration <= iterations; iteration++) {
+      const pageUrl = `${siteUrl}${page.url}`;
+      const pageName = page.name;
+      console.log('');
+      console.log('iteration', iteration);
+      console.log('environment:', environment);
+      console.log('siteName:', siteName);
+      console.log('siteUrl:', siteUrl);
+      console.log('siteTag:', siteTag);
+      console.log('pageName:', pageName);
+      console.log('pageUrl:', pageUrl);
 
 
-        // const iterationMeasurements = await createTestIteration(
-        //   {
-        //     environment,
-        //     site: siteName,
-        //     tag: siteTag,
-        //     page: url.name,
-        //     url: url.url,
-        //     device: 'desktop',
-        //     throttling: 'off',
-        //     iteration: i,
-        //   },
-        //   chromeFlags,
-        //   lighthouseFlags
-        // );
-        // points.push(...iterationMeasurements);
-      }
+      // const iterationMeasurements = await createTestIteration(
+      //   {
+      //     environment,
+      //     site: siteName,
+      //     tag: siteTag,
+      //     page: url.name,
+      //     url: url.url,
+      //     device: 'desktop',
+      //     throttling: 'off',
+      //     iteration: i,
+      //   },
+      //   chromeFlags,
+      //   lighthouseFlags
+      // );
+      // points.push(...iterationMeasurements);
     }
   }
   console.log('');
@@ -147,7 +145,7 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
   return points;
 }
 
-function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise< Array<IPoint>> {
+function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
   return new Promise((resolve, reject) => {
     console.log(`Starting test: ${tags.url}, iterations: ${tags.iteration}`);
 
