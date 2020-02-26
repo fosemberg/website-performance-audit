@@ -82,43 +82,35 @@ function launchChromeAndRunLighthouse(url, chromeFlags = [], lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-async function createTestSite(page, iterations): Promise<Array<IPoint>> {
-  const measurements: Array<IPoint> = [];
+async function createTestSite(): Promise<Array<IPoint>> {
+  const points: Array<IPoint> = [];
   const modTagNames = tags.map(tag => tag.name);
 
-  for (const tag of tags) {
-    for (let i = 1; i <= iterations; i++) {
-      console.log(i);
-      const iterationMeasurements = await createTestIteration(
-        {
-          environment,
-          site: siteName,
-          tag: siteTag,
-          page: page.name,
-          url: page.url,
-          device: 'desktop',
-          throttling: 'off',
-          iteration: i,
-        },
-        chromeFlags,
-        lighthouseFlags
-      );
-      measurements.push(...iterationMeasurements);
+  for (const url of env.urls) {
+    for (const tag of tags) {
+      for (let i = 1; i <= iterations; i++) {
+        console.log(i);
+        const iterationMeasurements = await createTestIteration(
+          {
+            environment,
+            site: siteName,
+            tag: siteTag,
+            page: url.name,
+            url: url.url,
+            device: 'desktop',
+            throttling: 'off',
+            iteration: i,
+          },
+          chromeFlags,
+          lighthouseFlags
+        );
+        points.push(...iterationMeasurements);
+      }
     }
   }
 
-  return measurements;
+  return points;
 }
-
-// tags
-// environment: env.environment,
-// site: 'some-site',
-// page: page.name,
-// url: page.url,
-// tag: '1.32',
-// device: 'desktop',
-// throttling: 'off',
-// iteration,
 
 function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise< Array<IPoint>> {
   return new Promise((resolve, reject) => {
@@ -153,12 +145,7 @@ function progressCallback(progress) {
 
 
 async function doTests() {
-  const points: Array<IPoint> = [];
-
-  for (const url of env.urls) {
-    const measurementPack = await createTestSite(url, iterations);
-    points.push(...measurementPack);
-  }
+  const points: Array<IPoint> = await createTestSite();
 
   console.log('doTest() measurements = ', JSON.stringify(points));
 
