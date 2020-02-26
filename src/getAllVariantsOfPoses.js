@@ -1,4 +1,4 @@
-const isAllZerosInArray = arr => !arr.join('').replace(/0/g,'')
+const checkIsAllZerosInArray = arr => !arr.join('').replace(/0/g,'');
 
 const getAllVariantsOfPoses = (poses, posesMax = [...poses], allVariantsOfPoses = [], isShift = false, cur = 0) => {
   if (!isShift) {
@@ -8,6 +8,7 @@ const getAllVariantsOfPoses = (poses, posesMax = [...poses], allVariantsOfPoses 
   if (_poses[cur] !== 0) {
     _poses[cur] -= 1;
     if (isShift) {
+      // get number from right and make everything left from number this as big as before
       for (let i = 0; i < cur; i++) {
         _poses[i] = posesMax[i];
       }
@@ -16,7 +17,7 @@ const getAllVariantsOfPoses = (poses, posesMax = [...poses], allVariantsOfPoses 
       getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, false, cur, allVariantsOfPoses);
     }
   } else {
-    if (!isAllZerosInArray(_poses)) {
+    if (!checkIsAllZerosInArray(_poses)) {
       getAllVariantsOfPoses(_poses, posesMax, allVariantsOfPoses, true, cur + 1, allVariantsOfPoses);
     }
   }
