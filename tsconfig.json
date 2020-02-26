@@ -4,15 +4,19 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "./build",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "outDir": "build"
   },
   "typeRoots": [
-    "@types",
-    "node_modules/lighthouse/types"
+    "./node_modules/lighthouse/typings",
+    "./node_modules/lighthouse/node_modules/"
   ],
   "include": [
     "./src/**/*.ts",
-    "./node_modules/lighthouse/typings/**/*.d.ts"
+    "./node_modules/lighthouse/typings/*.d.ts"
   ]
 }

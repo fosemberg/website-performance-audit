@@ -1,22 +1,25 @@
 {
   "scripts": {
     "dev": "ts-node src/app.ts",
-    "build": "tsc src/app.ts",
+    "build": "tsc --project ./tsconfig.json",
     "run": "npm run build && node ./build/app.js",
+    "start": "node ./build/app.js",
     "test": "jest"
   },
   "dependencies": {
-    "@types/jest": "^25.1.3",
     "influx": "^5.0.7",
     "lighthouse": "3.2.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "typescript": "3.1.0-dev.20180831"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^25.1.3",
+    "@types/node": "8.5.5",
     "babel-jest": "^25.1.0",
-    "jest": "^25.1.0"
+    "devtools-protocol": "0.0.588129",
+    "jest": "^25.1.0",
+    "ts-node": "^8.6.2"
   }
 }
