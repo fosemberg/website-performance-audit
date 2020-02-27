@@ -156,7 +156,7 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
 
 function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
   return new Promise((resolve) => {
-    console.log(`Starting test: ${tags.url}, iterations: ${tags.iteration}`);
+    console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
 
     launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
       .then(results => {
@@ -202,7 +202,6 @@ async function doTests() {
           replication: 1,
           isDefault: true
         })
-
       }
     })
     .then(() => {

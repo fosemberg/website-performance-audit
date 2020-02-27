@@ -38,11 +38,6 @@ export interface TagWithValues {
 }
 
 export interface Env {
-  // DELETE LEGACY {
-  environment: string,
-  urls: Array<Url>,
-  // DELETE LEGACY }
-
   input: Input,
   iterations: number,
   influxDB: ISingleHostConfig,

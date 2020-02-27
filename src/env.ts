@@ -1,21 +1,12 @@
 import {Env} from './types';
 
 export const env: Env = {
-  // DELETE LEGACY {
-  environment: 'trunk',
-  urls: [
-    {name: 'dev', url: 'http://test.fosemberg.dev.test-ru.dom/index.html'},
-    // {name: 'local', url: 'http://localhost:82/index.html'}
-  ],
-  // DELETE LEGACY }
-
-
   // WILL COME FROM API {
   input: {
-    iterations: 1,
+    iterations: 3,
     environment: "trunk",
     siteName: "some-site",
-    siteTag: "1.32",
+    siteTag: "1.36",
   },
   // WILL COME FROM API }
 
