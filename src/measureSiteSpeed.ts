@@ -183,19 +183,26 @@ function progressCallback(progress) {
   console.log(`Total progress: ${progress * 100}%`);
 }
 
-export async function measureSiteSpeed({environment, siteName, siteTag, iterations = env.iterations}: InputExternal): Promise<Error | 0> {
+export async function measureSiteSpeed(
+  {
+    env: environment,
+    site: siteName,
+    tag: siteTag,
+    iterations = env.iterations
+  }: InputExternal
+): Promise<Array<IPoint>> {
   if (environment === undefined) {
-    const errorMsg = 'No environment';
+    const errorMsg = 'No env';
     console.error(errorMsg);
-    return new Error(errorMsg);
+    throw new Error(errorMsg);
   } else if (siteName === undefined) {
-    const errorMsg = 'No siteName';
+    const errorMsg = 'No site';
     console.error(errorMsg);
-    return new Error(errorMsg);
+    throw new Error(errorMsg);
   } else if (siteTag === undefined) {
-    const errorMsg = 'No siteTag';
+    const errorMsg = 'No tag';
     console.error(errorMsg);
-    return new Error(errorMsg);
+    throw new Error(errorMsg);
   }
 
   const points: Array<IPoint> = await createTestSite({environment, siteName, siteTag, iterations});
@@ -215,6 +222,6 @@ export async function measureSiteSpeed({environment, siteName, siteTag, iteratio
     });
   }
   await influx.writePoints(points);
-  console.log('Tests are done');
-  return 0;
+  console.info('Tests are done');
+  return points;
 }

@@ -1,5 +1,12 @@
 import {ISingleHostConfig} from "influx";
 
+export interface InputExternal {
+  env: string,
+  site: string,
+  tag: string,
+  iterations?: number,
+}
+
 interface Url {
   name: string,
   url: string,
@@ -11,8 +18,6 @@ export interface Input {
   siteTag: string,
   iterations: number,
 }
-
-export type InputExternal =  MakeOptional<Input, 'iterations'>;
 
 export interface Site {
   name: string,
