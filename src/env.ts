@@ -35,11 +35,11 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://localhost:82/trunk/some-site"
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/some-site"
         },
         {
           name: "lk",
-          url: "http://localhost:82/trunk/lk"
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/lk"
         }
       ]
     },
@@ -48,11 +48,11 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://localhost:82/rc/some-site"
+          url: "http://test.fosemberg.dev.test-ru.dom/rc/some-site"
         },
         {
           name: "lk",
-          url: "http://localhost:82/rc/lk"
+          url: "http://test.fosemberg.dev.test-ru.dom/rc/lk"
         }
       ]
     }
