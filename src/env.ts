@@ -12,6 +12,7 @@ export const env: Env = {
 
   // WILL COME FROM API {
   input: {
+    iterations: 1,
     environment: "trunk",
     siteName: "some-site",
     siteTag: "1.32",

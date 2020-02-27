@@ -7,8 +7,9 @@ import {Site} from "./types";
 import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
 import {getMixedTags} from "./getMixedTags";
 
-const {chromeFlags, lighthouseFlags, influxDB: influxDBConfig, iterations, tags} = env;
+const {chromeFlags, influxDB: influxDBConfig} = env;
 const {input: {environment, siteName, siteTag}} = env;
+const iterations = env.input.iterations || env.iterations;
 
 interface SchemaItem {
   measurement: string,
@@ -40,7 +41,7 @@ const schemaItemTags: Array<string> = [
   'iteration',
   'device',
   'throttling',
-  ...tags.map(tag => tag.name)
+  ...env.tags.map(tag => tag.name)
 ];
 
 const schema: ISchemaOptions[] = schemaItems.map(schemaItem => {
@@ -107,17 +108,21 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
     }
   }
 
-  const mixedTags = getMixedTags(tags);
+  const mixedTags = getMixedTags(env.tags);
   console.log(mixedTags);
 
   const points: Array<IPoint> = [];
-  const modTagNames = tags.map(tag => tag.name);
+  const modTagNames = env.tags.map(tag => tag.name);
 
   for (const page of pages) {
     for (const mixedTag of mixedTags) {
       for (let iteration = 1; iteration <= iterations; iteration++) {
         const pageUrl = `${siteUrl}${page.url}`;
         const pageName = page.name;
+        const lighthouseFlags = {
+          ...env.lighthouseFlags,
+          ...mixedTag.lighthouseFlags
+        };
         console.log('');
         console.log('iteration', iteration);
         console.log('environment:', environment);
@@ -127,7 +132,8 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
         console.log('pageName:', pageName);
         console.log('pageUrl:', pageUrl);
         console.log('tags:', mixedTag.tags);
-        console.log('lighthouseFlags:', mixedTag.lighthouseFlags);
+        console.log('chromeFlags:', chromeFlags);
+        console.log('lighthouseFlags:', lighthouseFlags);
 
 
         // const iterationMeasurements = await createTestIteration(

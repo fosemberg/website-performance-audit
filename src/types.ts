@@ -6,6 +6,7 @@ interface Url {
 }
 
 interface Input {
+  iterations: number,
   environment: string,
   siteName: string,
   siteTag: string,
@@ -42,7 +43,7 @@ export interface Env {
   urls: Array<Url>,
   // DELETE LEGACY }
 
-  input: Input
+  input: Input,
   iterations: number,
   influxDB: ISingleHostConfig,
   chromeFlags: Array<string>,

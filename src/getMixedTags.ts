@@ -1,13 +1,12 @@
 import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
 import {TagWithValues} from "./types";
 
-interface Tag {
-  name: string,
-  value: string,
+interface Tags {
+  [key: string]: string;
 }
 
 export interface MixedTag {
-  tags: Array<Tag>,
+  tags: Tags,
   lighthouseFlags: LH.SharedFlagsSettings;
 }
 
@@ -19,7 +18,7 @@ export const getMixedTags = (tagsWithValues: Array<TagWithValues>): MixedTags =>
 
   const mixedTags: MixedTags = [];
   for (const poses of allVariantsOfPoses) {
-    const tags: Array<Tag> = [];
+    const tags: Tags = {};
     let lighthouseFlags: LH.SharedFlagsSettings = {};
 
     for (const [i, pos] of poses.entries()) {
@@ -27,10 +26,7 @@ export const getMixedTags = (tagsWithValues: Array<TagWithValues>): MixedTags =>
       const tagName = tagWithValues.name;
       const value = tagWithValues.values[pos];
       const valueName = value.name;
-      tags.push({
-        name: tagName,
-        value: valueName,
-      });
+      tags[tagName] = valueName;
       lighthouseFlags = {...lighthouseFlags, ...value.lighthouseFlags}
     }
 
