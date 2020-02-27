@@ -31,7 +31,7 @@ interface TagValue {
   lighthouseFlags: LH.SharedFlagsSettings
 }
 
-export interface Tag {
+export interface TagWithValues {
   name: string,
   values: Array<TagValue>
 }
@@ -49,5 +49,5 @@ export interface Env {
   lighthouseFlags: LH.SharedFlagsSettings,
   environments: Array<Environment>,
   sites: Array<SiteWithPages>,
-  tags: Array<Tag>
+  tags: Array<TagWithValues>
 }

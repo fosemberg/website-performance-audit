@@ -126,7 +126,7 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
         console.log('siteTag:', siteTag);
         console.log('pageName:', pageName);
         console.log('pageUrl:', pageUrl);
-        console.log('tags:', mixedTag.tagNames);
+        console.log('tags:', mixedTag.tags);
         console.log('lighthouseFlags:', mixedTag.lighthouseFlags);
 
 
