@@ -5,12 +5,14 @@ interface Url {
   url: string,
 }
 
-interface Input {
-  iterations: number,
+export interface Input {
   environment: string,
   siteName: string,
   siteTag: string,
+  iterations: number,
 }
+
+export type InputExternal =  MakeOptional<Input, 'iterations'>;
 
 export interface Site {
   name: string,
@@ -38,7 +40,7 @@ export interface TagWithValues {
 }
 
 export interface Env {
-  input: Input,
+  input: InputExternal,
   iterations: number,
   influxDB: ISingleHostConfig,
   chromeFlags: Array<string>,

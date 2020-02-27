@@ -3,12 +3,10 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from './env';
-import {Site} from "./types";
+import {Input, InputExternal, Site} from "./types";
 import {getMixedTags} from "./getMixedTags";
 
 const {chromeFlags, influxDB: influxDBConfig} = env;
-const {input: {environment, siteName, siteTag}} = env;
-const iterations = env.input.iterations || env.iterations;
 
 interface SchemaItem {
   measurement: string,
@@ -83,7 +81,7 @@ function launchChromeAndRunLighthouse(url, chromeFlags = [], lighthouseFlags = {
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-async function createTestSite(environment: string, siteName: string, siteTag: string): Promise<Array<IPoint>> {
+async function createTestSite({environment, siteName, siteTag, iterations}: Input): Promise<Array<IPoint>> {
 
   let siteUrl: string = '';
   for (const environmentObj of env.environments) {
@@ -185,12 +183,23 @@ function progressCallback(progress) {
   console.log(`Total progress: ${progress * 100}%`);
 }
 
-async function doTests() {
-  const points: Array<IPoint> = await createTestSite(environment, siteName, siteTag);
+async function doTests({environment, siteName, siteTag, iterations = env.iterations}: InputExternal) {
+  if (environment === undefined) {
+    console.error('No environment');
+    return;
+  } else if (siteName === undefined) {
+    console.error('No siteName');
+    return;
+  } else if (siteTag === undefined) {
+    console.error('No siteTag');
+    return;
+  }
 
-  console.log('doTest() measurements = ', JSON.stringify(points));
+  const points: Array<IPoint> = await createTestSite({environment, siteName, siteTag, iterations});
 
-  console.log('Writing results');
+  console.log('Metrics for sending to influxdb:');
+  console.log(JSON.stringify(points));
+  console.log('Writing results...');
 
   influx.getDatabaseNames()
     .then(names => {
@@ -212,4 +221,4 @@ async function doTests() {
     });
 }
 
-doTests();
+doTests(env.input).then();
