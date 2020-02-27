@@ -1,15 +1,6 @@
 import {Env} from './types';
 
 export const env: Env = {
-  // WILL COME FROM API {
-  input: {
-    iterations: 3,
-    environment: "trunk",
-    siteName: "some-site",
-    siteTag: "1.36",
-  },
-  // WILL COME FROM API }
-
   iterations: 1,
   influxDB: {
     host: 'fosemberg.dev.test-ru.dom',

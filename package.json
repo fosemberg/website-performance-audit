@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "ts-node src/app.ts",
+    "dev": "ts-node src/measureSiteSpeed.ts",
     "build": "tsc",
     "start": "node ./build/app.js",
     "test": "jest",

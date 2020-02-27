@@ -183,16 +183,19 @@ function progressCallback(progress) {
   console.log(`Total progress: ${progress * 100}%`);
 }
 
-async function doTests({environment, siteName, siteTag, iterations = env.iterations}: InputExternal) {
+export async function measureSiteSpeed({environment, siteName, siteTag, iterations = env.iterations}: InputExternal): Promise<Error | 0> {
   if (environment === undefined) {
-    console.error('No environment');
-    return;
+    const errorMsg = 'No environment';
+    console.error(errorMsg);
+    return new Error(errorMsg);
   } else if (siteName === undefined) {
-    console.error('No siteName');
-    return;
+    const errorMsg = 'No siteName';
+    console.error(errorMsg);
+    return new Error(errorMsg);
   } else if (siteTag === undefined) {
-    console.error('No siteTag');
-    return;
+    const errorMsg = 'No siteTag';
+    console.error(errorMsg);
+    return new Error(errorMsg);
   }
 
   const points: Array<IPoint> = await createTestSite({environment, siteName, siteTag, iterations});
@@ -201,24 +204,17 @@ async function doTests({environment, siteName, siteTag, iterations = env.iterati
   console.log(JSON.stringify(points));
   console.log('Writing results...');
 
-  influx.getDatabaseNames()
-    .then(names => {
-      if (!names.includes('lighthouse')) {
-        influx.createDatabase('lighthouse');
-        return influx.createRetentionPolicy('lighthouse', {
-          duration: '30d',
-          database: 'lighthouse',
-          replication: 1,
-          isDefault: true
-        })
-      }
-    })
-    .then(() => {
-      influx.writePoints(points)
-        .then(() => {
-          console.log('Tests are done');
-        });
+  const names = await influx.getDatabaseNames();
+  if (!names.includes('lighthouse')) {
+    await influx.createDatabase('lighthouse');
+    await influx.createRetentionPolicy('lighthouse', {
+      duration: '30d',
+      database: 'lighthouse',
+      replication: 1,
+      isDefault: true
     });
+  }
+  await influx.writePoints(points);
+  console.log('Tests are done');
+  return 0;
 }
-
-doTests(env.input).then();

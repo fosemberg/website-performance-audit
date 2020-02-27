@@ -40,7 +40,6 @@ export interface TagWithValues {
 }
 
 export interface Env {
-  input: InputExternal,
   iterations: number,
   influxDB: ISingleHostConfig,
   chromeFlags: Array<string>,
