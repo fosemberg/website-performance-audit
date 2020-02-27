@@ -17,11 +17,7 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://test.fosemberg.dev.test-ru.dom/trunk/some-site"
-        },
-        {
-          name: "lk",
-          url: "http://test.fosemberg.dev.test-ru.dom/trunk/lk"
+          url: "https://www.trunk.test-ru.dom"
         }
       ]
     },
@@ -30,14 +26,23 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://test.fosemberg.dev.test-ru.dom/rc/some-site"
+          url: "https://www.rc.test-ru.dom"
+        },
+      ]
+    },
+    {
+      name: "test",
+      sites: [
+        {
+          name: "some-site",
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/some-site"
         },
         {
           name: "lk",
-          url: "http://test.fosemberg.dev.test-ru.dom/rc/lk"
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/lk"
         }
       ]
-    }
+    },
   ],
   sites: [
     {
@@ -45,11 +50,11 @@ export const env: Env = {
       pages: [
         {
           name: "main",
-          url: "/index.html"
+          url: "/ru/"
         },
         {
           name: "pamm",
-          url: "/pamm.html"
+          url: "/ru/path/pamm/"
         }
       ]
     },
