@@ -4,7 +4,6 @@ import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from './env';
 import {Site} from "./types";
-import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
 import {getMixedTags} from "./getMixedTags";
 
 const {chromeFlags, influxDB: influxDBConfig} = env;
@@ -39,8 +38,6 @@ const schemaItemTags: Array<string> = [
   'url',
   'tag',
   'iteration',
-  'device',
-  'throttling',
   ...env.tags.map(tag => tag.name)
 ];
 
@@ -112,7 +109,6 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
   console.log(mixedTags);
 
   const points: Array<IPoint> = [];
-  const modTagNames = env.tags.map(tag => tag.name);
 
   for (const page of pages) {
     for (const mixedTag of mixedTags) {
@@ -136,21 +132,20 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
         console.log('lighthouseFlags:', lighthouseFlags);
 
 
-        // const iterationMeasurements = await createTestIteration(
-        //   {
-        //     environment,
-        //     site: siteName,
-        //     tag: siteTag,
-        //     page: url.name,
-        //     url: url.url,
-        //     device: 'desktop',
-        //     throttling: 'off',
-        //     iteration: i,
-        //   },
-        //   chromeFlags,
-        //   lighthouseFlags
-        // );
-        // points.push(...iterationMeasurements);
+        const iterationMeasurements = await createTestIteration(
+          {
+            environment,
+            site: siteName,
+            tag: siteTag,
+            page: pageName,
+            url: pageUrl,
+            ...mixedTag.tags,
+            iteration,
+          },
+          chromeFlags,
+          lighthouseFlags
+        );
+        points.push(...iterationMeasurements);
       }
     }
   }
@@ -160,7 +155,7 @@ async function createTestSite(environment: string, siteName: string, siteTag: st
 }
 
 function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     console.log(`Starting test: ${tags.url}, iterations: ${tags.iteration}`);
 
     launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
@@ -190,7 +185,6 @@ function progressCallback(progress) {
   console.log(`Total progress: ${progress * 100}%`);
 }
 
-
 async function doTests() {
   const points: Array<IPoint> = await createTestSite(environment, siteName, siteTag);
 
@@ -198,25 +192,25 @@ async function doTests() {
 
   console.log('Writing results');
 
-  // influx.getDatabaseNames()
-  //   .then(names => {
-  //     if (!names.includes('lighthouse')) {
-  //       influx.createDatabase('lighthouse');
-  //       return influx.createRetentionPolicy('lighthouse', {
-  //         duration: '30d',
-  //         database: 'lighthouse',
-  //         replication: 1,
-  //         isDefault: true
-  //       })
-  //
-  //     }
-  //   })
-  //   .then(() => {
-  //     influx.writePoints(points)
-  //       .then(() => {
-  //         console.log('Tests are done');
-  //       });
-  //   });
+  influx.getDatabaseNames()
+    .then(names => {
+      if (!names.includes('lighthouse')) {
+        influx.createDatabase('lighthouse');
+        return influx.createRetentionPolicy('lighthouse', {
+          duration: '30d',
+          database: 'lighthouse',
+          replication: 1,
+          isDefault: true
+        })
+
+      }
+    })
+    .then(() => {
+      influx.writePoints(points)
+        .then(() => {
+          console.log('Tests are done');
+        });
+    });
 }
 
 doTests();

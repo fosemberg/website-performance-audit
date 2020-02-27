@@ -104,14 +104,6 @@ export const env: Env = {
               downloadThroughputKbps: 1000
             },
           },
-        },
-        {
-          name: "mobile4G",
-          lighthouseFlags: {
-            throttling: {
-              downloadThroughputKbps: 9000
-            },
-          },
         }
       ]
     }
