@@ -64,19 +64,20 @@ const influx = new Influx.InfluxDB({
   schema,
 });
 
-function launchChromeAndRunLighthouse(url, chromeFlags = [], lighthouseFlags = {}, lighthouseConfig = null) {
-  return chromeLauncher.launch({chromeFlags})
-    .then(chrome => {
-      const {port} = chrome;
-      const _lighthouseFlags = {
-        ...lighthouseFlags,
-        port,
-      };
-      return lighthouse(url, _lighthouseFlags, lighthouseConfig)
-        .then(results =>
-          chrome.kill()
-            .then(() => results.lhr));
-    });
+async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = [], lighthouseFlags = {}, lighthouseConfig: any = null) {
+  const chrome = await chromeLauncher.launch({ chromeFlags });
+  const {port} = chrome;
+  const _lighthouseFlags = {
+    ...lighthouseFlags,
+    port,
+  };
+  const results = await lighthouse(
+    url,
+    _lighthouseFlags,
+    lighthouseConfig
+  );
+  await chrome.kill();
+  return results.lhr;
 }
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
@@ -152,31 +153,27 @@ async function createTestSite({environment, siteName, siteTag, iterations}: Inpu
   return points;
 }
 
-function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
-  return new Promise((resolve) => {
+async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
     console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
 
-    launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
-      .then(results => {
-        const measurements: Array<IPoint> = [];
-        for (let audit of audits) {
-          const score = results.audits[audit].score;
-          const value = results.audits[audit].rawValue;
-          console.log('audit: ' + audit + ' value: ' + value);
+    const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
+    const measurements: Array<IPoint> = [];
+    for (let audit of audits) {
+      const score = results.audits[audit].score;
+      const value = results.audits[audit].rawValue;
+      console.log('audit: ' + audit + ' value: ' + value);
 
-          const measurement: IPoint = {
-            measurement: audit,
-            tags,
-            fields: {
-              score: score,
-              value: value
-            }
-          };
-          measurements.push(measurement);
+      const measurement: IPoint = {
+        measurement: audit,
+        tags,
+        fields: {
+          score,
+          value,
         }
-        resolve(measurements);
-      });
-  });
+      };
+      measurements.push(measurement);
+    }
+    return measurements;
 }
 
 function progressCallback(progress) {

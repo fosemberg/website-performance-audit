@@ -73,6 +73,6 @@ async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = []
   const results = await launchChromeAndRunLighthouse(url, chromeFlags, lighthouseFlags);
   for (let audit of audits) {
     const value = results.audits[audit].rawValue;
-    console.log('audit: ' + audit + ' value: ' + value);
+    console.log(`${audit}: ${value}`);
   }
 })();
