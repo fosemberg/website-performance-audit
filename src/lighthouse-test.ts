@@ -8,19 +8,27 @@ interface SchemaItem {
   score: Influx.FieldType,
 }
 
-const url = "https://www10.trunk.test-ru.dom/ru/";
+const url = "https://www.trunk.test-ru.dom/ru/path/some/";
 
 const chromeFlags = [
   // '--headless',
-  '--allow-insecure-localhost',
-  '--ignore-certificate-errors',
-  '--ignore-certificate-errors-spki-list',
+  // '--allow-insecure-localhost',
+  // '--ignore-certificate-errors',
+  // '--ignore-certificate-errors-spki-list',
+
   // '--no-sandbox',
   // '--allow-running-insecure-content',
   // '--ignore-urlfetcher-cert-requests',
   // '--disable-gpu',
   // '--disable-software-rasterizer',
-  // '--disable-dev-shm-usage'
+  // '--disable-dev-shm-usage',
+
+  '--ignore-certificate-errors',
+  '--headless',
+  '--disable-gpu',
+  '--no-sandbox',
+  '--disable-software-rasterizer',
+  '--disable-dev-shm-usage',
 ];
 //
 // const chromeFlags = env.chromeFlags;
@@ -46,7 +54,7 @@ const schemaItems: Array<SchemaItem> = [
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
 async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = [], lighthouseFlags = {}, lighthouseConfig: any = null) {
-  const chrome = await chromeLauncher.launch({ chromeFlags });
+  const chrome = await chromeLauncher.launch({chromeFlags});
   const {port} = chrome;
   const _lighthouseFlags = {
     ...lighthouseFlags,
@@ -67,6 +75,6 @@ async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = []
   for (let audit of audits) {
     const value = results.audits[audit].rawValue;
     console.log(`${audit}`);
-    console.log(`${(value/1000).toFixed(2)} s`);
+    console.log(`${(value / 1000).toFixed(2)} s`);
   }
 })();

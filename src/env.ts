@@ -7,7 +7,14 @@ export const env: Env = {
     port: 8086,
     database: 'lighthouse',
   },
-  chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-software-rasterizer', '--disable-dev-shm-usage'],
+  chromeFlags: [
+    '--ignore-certificate-errors',
+    '--headless',
+    '--disable-gpu',
+    '--no-sandbox',
+    '--disable-software-rasterizer',
+    '--disable-dev-shm-usage'
+  ],
   lighthouseFlags: {
     onlyCategories: ["performance"],
   },

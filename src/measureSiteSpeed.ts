@@ -160,7 +160,11 @@ async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<
     const measurements: Array<IPoint> = [];
     for (let audit of audits) {
       const score = results.audits[audit].score;
-      const value = results.audits[audit].rawValue;
+      let value = results.audits[audit].rawValue;
+      // по хорошему null быть не должно
+      if (value === null) {
+        value = -1;
+      }
       console.log('audit: ' + audit + ' value: ' + value);
 
       const measurement: IPoint = {

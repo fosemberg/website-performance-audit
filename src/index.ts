@@ -16,7 +16,7 @@ app.get(
     res: Response
   ) => {
     try {
-      res.json( await measureSiteSpeed(query));
+      res.json(await measureSiteSpeed(query));
     } catch (e) {
       res.json({
         error: e.toString(),
