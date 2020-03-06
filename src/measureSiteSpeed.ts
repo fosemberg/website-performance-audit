@@ -14,6 +14,9 @@ interface SchemaItem {
   score: Influx.FieldType,
 }
 
+const calcMean = (...numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
+const day = 1000 * 60 * 60 * 24;
+
 const schemaItems: Array<SchemaItem> = [
   {measurement: 'first-contentful-paint', score: Influx.FieldType.INTEGER},
   {measurement: 'first-cpu-idle', score: Influx.FieldType.INTEGER},
@@ -113,7 +116,8 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
 
   const testCount = pages.length * mixedTags.length * iterations;
   let progressCount = 0;
-  let progressMilliseconds = 0;
+  let progressMilliseconds = day;
+  const spendTimes: Array<number> = [];
   sendProgress({...input, progressPercent: progressCount, progressMilliseconds}).then();
 
   for (const page of pages) {
@@ -153,18 +157,19 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
         );
         const endTime = new Date().getTime();
         points.push(...iterationMeasurements);
-        const spendTime = endTime - startTime;
+        spendTimes.push(endTime - startTime);
+        const meanSpendTime = calcMean(spendTimes);
         progressCount++;
 
-        console.log('spendTime', spendTime);
+        console.log('spendTime', spendTimes);
         console.log('testCount', testCount);
         console.log('progressCount', progressCount);
-        console.log('spendTime * (testCount - progressCount)', spendTime * (testCount - progressCount));
+        console.log('meanSpendTime * (testCount - progressCount)', meanSpendTime * (testCount - progressCount));
 
         sendProgress({
           ...input,
           progressPercent: progressCount / testCount * 100,
-          progressMilliseconds: spendTime * (testCount - progressCount),
+          progressMilliseconds: meanSpendTime * (testCount - progressCount),
         }).then();
       }
     }
