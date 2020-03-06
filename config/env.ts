@@ -1,4 +1,4 @@
-import {Env} from './types';
+import {Env} from '../src/types';
 
 export const env: Env = {
   iterations: 1,
@@ -60,8 +60,8 @@ export const env: Env = {
           url: "/ru/"
         },
         {
-          name: "pamm",
-          url: "/ru/path/pamm/"
+          name: "some",
+          url: "/ru/path/some/"
         }
       ]
     },

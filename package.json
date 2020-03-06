@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "dev": "ts-node src/measureSiteSpeed.ts",
+    "dev": "ts-node src/back/measureSiteSpeed.ts",
     "build": "tsc",
-    "start": "node ./build/index.js",
+    "start": "node ./build/src/back/index.js",
     "test": "jest",
     "build-start": "npm run build && npm run start"
   },

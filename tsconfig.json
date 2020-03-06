@@ -17,6 +17,7 @@
   ],
   "include": [
     "./src/**/*.ts",
+    "./config/**/*.ts",
     "./node_modules/lighthouse/typings/*.d.ts"
   ],
   "exclude": [
