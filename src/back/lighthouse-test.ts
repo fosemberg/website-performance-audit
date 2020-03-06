@@ -1,14 +1,14 @@
 import lighthouse from 'lighthouse/lighthouse-core';
 import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from "influx";
-import {env} from "./env"
+import {env} from "../../config/env"
 
 interface SchemaItem {
   measurement: string,
   score: Influx.FieldType,
 }
 
-const url = "https://www.trunk.test-ru.dom/ru/path/some/";
+const url = "https://www.trunk.test-ru.dom/ru/invest/pamm/";
 
 const chromeFlags = [
   // '--headless',

@@ -1,5 +1,5 @@
 import {getAllVariantsOfPoses} from "./getAllVariantsOfPoses";
-import {TagWithValues} from "./types";
+import {TagWithValues} from "../types";
 
 interface Tags {
   [key: string]: string;

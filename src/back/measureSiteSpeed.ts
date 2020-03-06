@@ -2,8 +2,8 @@ import lighthouse from 'lighthouse/lighthouse-core';
 import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
-import {env} from './env';
-import {Input, InputExternal, Site} from "./types";
+import {env} from '../../config/env';
+import {Input, InputExternal, Site} from "../types";
 import {getMixedTags} from "./getMixedTags";
 import {sendProgress} from "./sendProgress";
 

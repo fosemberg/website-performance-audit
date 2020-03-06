@@ -1,8 +1,8 @@
 import lighthouse from 'lighthouse/lighthouse-core';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
-import {env} from './env';
-import {Input, InputExternal, SendProgress, Site} from "./types";
+import {env} from '../../config/env';
+import {Input, InputExternal, SendProgress, Site} from "../types";
 
 const {influxDB: influxDBConfig} = env;
 

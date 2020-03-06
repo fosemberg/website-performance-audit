@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>lighthouse-influxdb-grafana send form</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<form id="formElem">
+  <input
+    class="hide-input"
+    type="submit"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+  <label for="env">env</label>
+  <input type="text" id="env" name="env" value="trunk">
+  <label for="site">site</label>
+  <input type="text" id="site" name="site" value="some-site">
+  <label for="tag">tag</label>
+  <input type="text" id="tag" name="tag" value="1.58">
+  <input type="submit" value="Run test">
+</form>
+
+<script src="index.js"></script>
+</body>
+</html>
