@@ -19,6 +19,7 @@ const schemaItemTags: Array<string> = [
   'environment',
   'site',
   'tag',
+  'progressType',
 ];
 
 const schema: ISchemaOptions[] = schemaItems.map(schemaItem => {
@@ -51,7 +52,8 @@ export async function sendProgress(
     environment,
     siteName,
     siteTag,
-    progress
+    progressPercent,
+    progressMilliseconds,
   }: SendProgress
 ): Promise<Array<IPoint>> {
 
@@ -61,14 +63,42 @@ export async function sendProgress(
       environment,
       site: siteName,
       tag: siteTag,
+      progressType: 'percent'
     },
     fields: {
       score: 1,
-      value: progress,
+      value: progressPercent,
     }
   };
 
-  const points: Array<IPoint> = [point];
+  const points: Array<IPoint> = [
+    {
+      measurement: 'progress',
+      tags: {
+        environment,
+        site: siteName,
+        tag: siteTag,
+        progressType: 'percent'
+      },
+      fields: {
+        score: 1,
+        value: progressPercent,
+      }
+    },
+    {
+      measurement: 'progress',
+      tags: {
+        environment,
+        site: siteName,
+        tag: siteTag,
+        progressType: 'milliseconds'
+      },
+      fields: {
+        score: 1,
+        value: progressMilliseconds,
+      }
+    }
+  ];
 
   const names = await influx.getDatabaseNames();
   if (!names.includes('lighthouse')) {
