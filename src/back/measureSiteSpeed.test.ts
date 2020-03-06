@@ -1,6 +1,6 @@
 import {measureSiteSpeed} from './measureSiteSpeed'
 import {env} from "../../config/env";
-import {InputExternal} from "../types";
+import {InputExternal} from "../../config/types";
 
 const second = 1000;
 const minute = 60 * second;

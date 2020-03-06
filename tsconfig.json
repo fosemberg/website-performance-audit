@@ -21,6 +21,6 @@
     "./node_modules/lighthouse/typings/*.d.ts"
   ],
   "exclude": [
-    "./src/**/*.test.ts"
+    "./src/back/**/*.test.ts"
   ]
 }

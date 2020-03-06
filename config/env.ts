@@ -1,4 +1,4 @@
-import {Env} from '../src/types';
+import {Env} from './types';
 
 export const env: Env = {
   iterations: 1,
