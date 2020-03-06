@@ -1,7 +1,8 @@
 import {ISingleHostConfig} from "influx";
 
 export interface SendProgress extends Input {
-  progress: number,
+  progressPercent: number,
+  progressMilliseconds: number,
 }
 
 export interface InputExternal {

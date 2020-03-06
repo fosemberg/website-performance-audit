@@ -66,7 +66,7 @@ const influx = new Influx.InfluxDB({
 });
 
 async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = [], lighthouseFlags = {}, lighthouseConfig: any = null) {
-  const chrome = await chromeLauncher.launch({ chromeFlags });
+  const chrome = await chromeLauncher.launch({chromeFlags});
   const {port} = chrome;
   const _lighthouseFlags = {
     ...lighthouseFlags,
@@ -112,8 +112,9 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
   const points: Array<IPoint> = [];
 
   const testCount = pages.length * mixedTags.length * iterations;
-  let progress = 0;
-  sendProgress({...input, progress}).then();
+  let progressCount = 0;
+  let progressMilliseconds = 0;
+  sendProgress({...input, progressPercent: progressCount, progressMilliseconds}).then();
 
   for (const page of pages) {
     for (const mixedTag of mixedTags) {
@@ -136,6 +137,7 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
         console.log('chromeFlags:', chromeFlags);
         console.log('lighthouseFlags:', lighthouseFlags);
 
+        const startTime = new Date().getTime();
         const iterationMeasurements = await createTestIteration(
           {
             environment,
@@ -149,8 +151,21 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
           chromeFlags,
           lighthouseFlags
         );
+        const endTime = new Date().getTime();
         points.push(...iterationMeasurements);
-        sendProgress({...input, progress: ++progress/testCount * 100}).then();
+        const spendTime = endTime - startTime;
+        progressCount++;
+
+        console.log('spendTime', spendTime);
+        console.log('testCount', testCount);
+        console.log('progressCount', progressCount);
+        console.log('spendTime * (testCount - progressCount)', spendTime * (testCount - progressCount));
+
+        sendProgress({
+          ...input,
+          progressPercent: progressCount / testCount * 100,
+          progressMilliseconds: spendTime * (testCount - progressCount),
+        }).then();
       }
     }
   }
@@ -160,30 +175,30 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
 }
 
 async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
-    console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
+  console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
 
-    const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags);
-    const measurements: Array<IPoint> = [];
-    for (let audit of audits) {
-      const score = results.audits[audit].score;
-      let value = results.audits[audit].rawValue;
-      // по хорошему null быть не должно
-      if (value === null) {
-        value = -1;
-      }
-      console.log('audit: ' + audit + ' value: ' + value);
-
-      const measurement: IPoint = {
-        measurement: audit,
-        tags,
-        fields: {
-          score,
-          value,
-        }
-      };
-      measurements.push(measurement);
+  const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags);
+  const measurements: Array<IPoint> = [];
+  for (let audit of audits) {
+    const score = results.audits[audit].score;
+    let value = results.audits[audit].rawValue;
+    // по хорошему null быть не должно
+    if (value === null) {
+      value = -1;
     }
-    return measurements;
+    console.log('audit: ' + audit + ' value: ' + value);
+
+    const measurement: IPoint = {
+      measurement: audit,
+      tags,
+      fields: {
+        score,
+        value,
+      }
+    };
+    measurements.push(measurement);
+  }
+  return measurements;
 }
 
 function progressCallback(progress) {
