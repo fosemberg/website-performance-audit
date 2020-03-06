@@ -5,6 +5,7 @@ import {IPoint, ISchemaOptions} from 'influx';
 import {env} from './env';
 import {Input, InputExternal, Site} from "./types";
 import {getMixedTags} from "./getMixedTags";
+import {sendProgress} from "./sendProgress";
 
 const {chromeFlags, influxDB: influxDBConfig} = env;
 
@@ -82,7 +83,9 @@ async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = []
 
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
-async function createTestSite({environment, siteName, siteTag, iterations}: Input): Promise<Array<IPoint>> {
+async function createTestSite(input: Input): Promise<Array<IPoint>> {
+  sendProgress({...input, progress: 0}).then();
+  const {environment, siteName, siteTag, iterations} = input;
 
   let siteUrl: string = '';
   for (const environmentObj of env.environments) {
@@ -108,6 +111,8 @@ async function createTestSite({environment, siteName, siteTag, iterations}: Inpu
   console.log(mixedTags);
 
   const points: Array<IPoint> = [];
+
+  let testCount = 0;
 
   for (const page of pages) {
     for (const mixedTag of mixedTags) {
@@ -145,6 +150,7 @@ async function createTestSite({environment, siteName, siteTag, iterations}: Inpu
           lighthouseFlags
         );
         points.push(...iterationMeasurements);
+        sendProgress({...input, progress: ++testCount}).then();
       }
     }
   }
@@ -156,7 +162,7 @@ async function createTestSite({environment, siteName, siteTag, iterations}: Inpu
 async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<Array<IPoint>> {
     console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
 
-    const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags)
+    const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags);
     const measurements: Array<IPoint> = [];
     for (let audit of audits) {
       const score = results.audits[audit].score;
