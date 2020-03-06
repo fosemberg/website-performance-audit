@@ -1,5 +1,9 @@
 import {ISingleHostConfig} from "influx";
 
+export interface SendProgress extends Input {
+  progress: number,
+}
+
 export interface InputExternal {
   env: string,
   site: string,
