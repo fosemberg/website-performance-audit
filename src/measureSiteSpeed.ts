@@ -84,7 +84,6 @@ async function launchChromeAndRunLighthouse(url, chromeFlags: Array<string> = []
 const audits = schemaItems.map(schemaItem => schemaItem.measurement);
 
 async function createTestSite(input: Input): Promise<Array<IPoint>> {
-  sendProgress({...input, progress: 0}).then();
   const {environment, siteName, siteTag, iterations} = input;
 
   let siteUrl: string = '';
@@ -112,7 +111,9 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
 
   const points: Array<IPoint> = [];
 
-  let testCount = 0;
+  const testCount = pages.length * mixedTags.length * iterations;
+  let progress = 0;
+  sendProgress({...input, progress}).then();
 
   for (const page of pages) {
     for (const mixedTag of mixedTags) {
@@ -135,7 +136,6 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
         console.log('chromeFlags:', chromeFlags);
         console.log('lighthouseFlags:', lighthouseFlags);
 
-
         const iterationMeasurements = await createTestIteration(
           {
             environment,
@@ -150,7 +150,7 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
           lighthouseFlags
         );
         points.push(...iterationMeasurements);
-        sendProgress({...input, progress: ++testCount}).then();
+        sendProgress({...input, progress: ++progress/testCount * 100}).then();
       }
     }
   }
