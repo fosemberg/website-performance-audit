@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express';
-import {InputExternal} from "../types";
+import {InputExternal} from "../../config/types";
 import {measureSiteSpeed} from "./measureSiteSpeed";
 
 interface IQuery<T> {

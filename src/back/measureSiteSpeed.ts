@@ -3,7 +3,7 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from '../../config/env';
-import {Input, InputExternal, Site} from "../types";
+import {Input, InputExternal, Site} from "../../config/types";
 import {getMixedTags} from "./getMixedTags";
 import {sendProgress} from "./sendProgress";
 

@@ -1,7 +1,10 @@
 {
   "scripts": {
     "dev": "ts-node src/back/measureSiteSpeed.ts",
-    "build": "tsc",
+    "build": "npm run build-ts && npm run move-front-to-web",
+    "build-ts": "tsc",
+    "move-front-to-web": "cpx \"build/src/front/**/*\" web && cpx \"public/**/*\" web",
+    "build": "npm run build-back && npm run build-front",
     "start": "node ./build/src/back/index.js",
     "test": "jest",
     "build-start": "npm run build && npm run start"
@@ -20,6 +23,8 @@
     "@types/jest": "^25.1.3",
     "@types/node": "8.5.5",
     "babel-jest": "^25.1.0",
+    "copy-files-from-to": "^2.3.0",
+    "cpx": "^1.5.0",
     "devtools-protocol": "0.0.588129",
     "jest": "^25.1.0",
     "ts-node": "^8.6.2"
