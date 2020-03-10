@@ -10,9 +10,9 @@ describe("measureSiteSpeed", () => {
 
     const input: InputExternal = {
       iterations: 3,
-      environment: "trunk",
-      siteName: "site-global",
-      siteTag: "1.36",
+      env: "trunk",
+      site: "site-global",
+      tag: "1.36",
     };
 
     // const measureSiteSpeedReturn = await measureSiteSpeed(input);
