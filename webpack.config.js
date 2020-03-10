@@ -9,6 +9,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /env\.ts$/,
+        loader: 'string-replace-loader',
+        options: {
+          search: `(.*[Pp]assword.*)(\s*:[ \t]*['"])([^'"]*)(['"])`,
+          replace: `$1$2***HIDDEN***$4`,
+          flags: 'i'
+        }
+      },
+      {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,

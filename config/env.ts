@@ -6,6 +6,7 @@ export const env: Env = {
     host: 'fosemberg.dev.test-ru.dom',
     port: 8086,
     database: 'lighthouse',
+    password    :    'some-pass'
   },
   chromeFlags: [
     '--ignore-certificate-errors',

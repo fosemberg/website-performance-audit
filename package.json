@@ -26,6 +26,7 @@
     "cpx": "^1.5.0",
     "devtools-protocol": "0.0.588129",
     "jest": "^25.1.0",
+    "string-replace-loader": "^2.2.0",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
     "webpack": "^4.42.0",
