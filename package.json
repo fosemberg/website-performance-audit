@@ -4,7 +4,6 @@
     "build": "npm run build-ts && npm run move-front-to-web",
     "build-ts": "tsc",
     "move-front-to-web": "cpx \"build/src/front/**/*\" web && cpx \"public/**/*\" web",
-    "build": "npm run build-back && npm run build-front",
     "start": "node ./build/src/back/index.js",
     "test": "jest",
     "build-start": "npm run build && npm run start"
