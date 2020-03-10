@@ -1,4 +1,9 @@
 import {createInputWithOptions} from "./createInputWithOptions";
+import {env} from "../../config/env";
+
+const {influxDB} = env;
+
+console.log(env.influxDB.password);
 
 createInputWithOptions(document.getElementById('env'), [1, 2, 3, 4], 1);
 createInputWithOptions(document.getElementById('site'), [1, 2, 3, 4], 1);
