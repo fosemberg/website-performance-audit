@@ -4,7 +4,7 @@
  * @param optionsData - массив данных для селектора
  * @param currentInputData - текущий объекта
  */
-export var createInputWithOptions = function (input, optionsData, currentInputData) {
+export let createInputWithOptions = function (input, optionsData, currentInputData) {
   var selectIdPostfix = 'Select';
   var dataListIdPostfix = 'DataList';
   var buttonIdPostfix = 'Button';
