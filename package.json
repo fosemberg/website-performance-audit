@@ -6,7 +6,8 @@
     "move-front-to-web": "cpx \"build/src/front/**/*\" web && cpx \"public/**/*\" web",
     "start": "node ./build/src/back/index.js",
     "test": "jest",
-    "build-start": "npm run build && npm run start"
+    "build-start": "npm run build && npm run start",
+    "webpack": "webpack"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -25,6 +26,9 @@
     "cpx": "^1.5.0",
     "devtools-protocol": "0.0.588129",
     "jest": "^25.1.0",
-    "ts-node": "^8.6.2"
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.6.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   }
 }
