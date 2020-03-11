@@ -22,8 +22,9 @@ export let createInputWithOptions = function (selectedInput, optionsData, curren
   let dataList = document.createElement('dataList');
   let select = document.createElement('select');
   let button = document.createElement('button');
-  // let input = document.createElement('input');
-  var input = selectedInput.cloneNode(true);
+  let input = selectedInput.tagName === 'INPUT'
+    ? selectedInput.cloneNode(true)
+    : selectedInput.getElementsByTagName('INPUT')[0].cloneNode(true)
   input.id = id + 'Input';
 
   rootElement.id = id;
