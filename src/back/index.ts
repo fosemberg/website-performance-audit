@@ -4,7 +4,6 @@ import {env} from "../../config/env";
 import {measureSiteSpeed} from "./measureSiteSpeed";
 import cors from "cors";
 
-
 interface IQuery<T> {
   query: T;
 }
