@@ -14,7 +14,7 @@ interface SchemaItem {
   score: Influx.FieldType,
 }
 
-const calcMean = (...numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
+const calcMean = (numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 const day = 1000 * 60 * 60 * 24;
 
 const schemaItems: Array<SchemaItem> = [
@@ -158,10 +158,11 @@ async function createTestSite(input: Input): Promise<Array<IPoint>> {
         const endTime = new Date().getTime();
         points.push(...iterationMeasurements);
         spendTimes.push(endTime - startTime);
-        const meanSpendTime = calcMean(spendTimes);
+        const meanSpendTime = Math.round(calcMean(spendTimes));
         progressCount++;
 
-        console.log('spendTime', spendTimes);
+        console.log('spendTimes', spendTimes);
+        console.log('meanSpendTime', meanSpendTime);
         console.log('testCount', testCount);
         console.log('progressCount', progressCount);
         console.log('meanSpendTime * (testCount - progressCount)', meanSpendTime * (testCount - progressCount));

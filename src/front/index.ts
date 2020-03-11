@@ -27,7 +27,7 @@ if (formElem) {
     if (output) {
       output.innerText = 'Sending...';
     }
-    const url = 'http://fosemberg.dev.test-ru.dom:3000';
+    const backUrl = 'http://fosemberg.dev.test-ru.dom:3000';
 
     // @ts-ignore
     const formData = new FormData(formElem);
@@ -35,17 +35,17 @@ if (formElem) {
     console.log(formData);
 
     let response;
-
+    const url = `${backUrl}/${getParams}`;
     try {
-      response = await fetch(`${url}/${getParams}`);
+      response = await fetch(url);
       let result = await response.json();
       if (output) {
-        output.innerText = JSON.stringify(result, null, 2);
+        output.innerText = `url: ${url}\n${JSON.stringify(result, null, 2)}`;
       }
       console.log(result);
     } catch (e) {
       if (output) {
-        output.innerText = e.toString();
+        output.innerText = `url: ${url}\n${e.toString()}`;
       }
       console.error(e);
     }
