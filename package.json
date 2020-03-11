@@ -1,13 +1,13 @@
 {
   "scripts": {
     "dev": "ts-node src/back/measureSiteSpeed.ts",
-    "build": "npm run build-ts && npm run build-front",
     "build-ts": "tsc",
     "move-front-to-web": "cpx \"build/src/front/**/*\" web && cpx \"public/**/*\" web",
-    "start": "node ./build/src/back/index.js",
+    "build-front": "webpack && npm run move-front-to-web",
+    "build": "npm run build-ts && npm run build-front",
+    "start-back": "node ./build/src/back/index.js",
     "test": "jest",
-    "build-start": "npm run build && npm run start",
-    "build-front": "webpack && npm run move-front-to-web"
+    "build-start": "npm run build && npm run start-back"
   },
   "dependencies": {
     "express": "^4.17.1",
