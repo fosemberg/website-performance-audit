@@ -27,7 +27,7 @@ if (formElem) {
     if (output) {
       output.innerText = 'Sending...';
     }
-    const backUrl = 'http://fosemberg.dev.test-ru.dom:3000';
+    const backUrl = `${env.origin}:${env.port}`;
 
     // @ts-ignore
     const formData = new FormData(formElem);

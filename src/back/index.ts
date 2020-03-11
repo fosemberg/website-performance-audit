@@ -1,7 +1,9 @@
 import express, {Request, Response} from 'express';
 import {InputExternal} from "../../config/types";
+import {env} from "../../config/env";
 import {measureSiteSpeed} from "./measureSiteSpeed";
 import cors from "cors";
+
 
 interface IQuery<T> {
   query: T;
@@ -41,7 +43,7 @@ app.get('/help', ({}, res: Response) => {
   }
 );
 
-const port = process.env.PORT || 3000;
+const port = env.port || 3000;
 
 console.log(`Server start on port: ${port}`)
-app.listen(process.env.PORT || 3000);
+app.listen(env.port || 3000);
