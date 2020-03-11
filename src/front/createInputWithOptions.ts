@@ -24,7 +24,7 @@ export let createInputWithOptions = function (selectedInput, optionsData, curren
   let button = document.createElement('button');
   let input = selectedInput.tagName === 'INPUT'
     ? selectedInput.cloneNode(true)
-    : selectedInput.getElementsByTagName('INPUT')[0].cloneNode(true)
+    : selectedInput.getElementsByTagName('INPUT')[0].cloneNode(true);
   input.id = id + 'Input';
 
   rootElement.id = id;
@@ -94,6 +94,5 @@ export let createInputWithOptions = function (selectedInput, optionsData, curren
   selectedInput.parentElement.insertBefore(rootElement, selectedInput);
 
   selectedInput.parentNode.removeChild(selectedInput);
-  // input = inputClone;
   return id;
 };
