@@ -1,13 +1,15 @@
 import {Env} from './types';
 
 export const env: Env = {
-  iterations: 1,
+  port: 3000,
+  origin: 'http://example.localhost',
   influxDB: {
-    host: 'fosemberg.dev.test-ru.dom',
+    host: 'example.localhost',
     port: 8086,
     database: 'lighthouse',
     password    :    'some-pass'
   },
+  iterations: 1,
   chromeFlags: [
     '--ignore-certificate-errors',
     '--headless',
@@ -34,7 +36,7 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "https://www.rc.test-ru.dom"
+          url: "http://example.localhost"
         },
       ]
     },
@@ -43,11 +45,11 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://test.fosemberg.dev.test-ru.dom/trunk/some-site"
+          url: "http://example.localhost"
         },
         {
           name: "lk",
-          url: "http://test.fosemberg.dev.test-ru.dom/trunk/lk"
+          url: "http://example.localhost"
         }
       ]
     },
@@ -62,7 +64,7 @@ export const env: Env = {
         },
         {
           name: "some",
-          url: "/ru/path/some/"
+          url: "/ru/some/"
         }
       ]
     },

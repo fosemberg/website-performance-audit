@@ -2,7 +2,7 @@ import lighthouse from 'lighthouse/lighthouse-core';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from '../../config/env';
-import {Input, InputExternal, SendProgress, Site} from "../../config/types";
+import {SendProgress} from "../../config/types";
 
 const {influxDB: influxDBConfig} = env;
 
@@ -56,21 +56,6 @@ export async function sendProgress(
     progressMilliseconds,
   }: SendProgress
 ): Promise<Array<IPoint>> {
-
-  const point: IPoint = {
-    measurement: 'progress',
-    tags: {
-      environment,
-      site: siteName,
-      tag: siteTag,
-      progressType: 'percent'
-    },
-    fields: {
-      score: 1,
-      value: progressPercent,
-    }
-  };
-
   const points: Array<IPoint> = [
     {
       measurement: 'progress',
