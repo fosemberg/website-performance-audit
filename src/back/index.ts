@@ -1,12 +1,14 @@
 import express, {Request, Response} from 'express';
 import {InputExternal} from "../../config/types";
 import {measureSiteSpeed} from "./measureSiteSpeed";
+import cors from "cors";
 
 interface IQuery<T> {
   query: T;
 }
 
 const app = express();
+app.use(cors());
 const urlExampleMessage = 'http://example.com/?env=trunk&site=some-site&tag=1.32';
 
 app.get(
@@ -16,10 +18,13 @@ app.get(
     res: Response
   ) => {
     try {
-      res.json({
+      const status = {
         status: 'testing',
         buildParameters: query,
-      });
+      };
+      res.json(status);
+      console.log(status);
+      measureSiteSpeed(query).then();
     } catch (e) {
       res.json({
         error: e.toString(),

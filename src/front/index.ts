@@ -40,9 +40,9 @@ if (formElem) {
       response = await fetch(`${url}/${getParams}`);
       let result = await response.json();
       if (output) {
-        output.innerText = JSON.stringify(response, null, 2);
+        output.innerText = JSON.stringify(result, null, 2);
       }
-      console.log(result.message);
+      console.log(result);
     } catch (e) {
       if (output) {
         output.innerText = e.toString();
