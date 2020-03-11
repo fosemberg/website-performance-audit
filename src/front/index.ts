@@ -32,10 +32,20 @@ if (formElem) {
     const getParams = `?${new URLSearchParams(formData).toString()}`;
     console.log(formData);
 
-    let response = await fetch(`${url}/${getParams}`);
-
-    let result = await response.json();
-
-    console.log(result.message);
-  };
+    let response;
+    const output = document.getElementById('output');
+    try {
+      response = await fetch(`${url}/${getParams}`);
+      let result = await response.json();
+      if (output) {
+        output.innerText = JSON.stringify(response, null, 2);
+      }
+      console.log(result.message);
+    } catch (e) {
+      if (output) {
+        output.innerText = e.toString();
+      }
+      console.error(e);
+    }
+  }
 }
