@@ -3,26 +3,26 @@
  * @param input - форма, в которой находится селектор
  * @param optionsData - массив данных для селектора
  * @param currentInputData - текущий объекта
- * @param onClickOption
+ * @param onClickOption - callback, вызывается при выборе опции
  */
 export let createInputWithOptions = function (selectedElement, optionsData, currentInputData, onClickOption = (option: string) => {}) {
   const {id} = selectedElement;
-  var selectIdPostfix = 'Select';
-  var dataListIdPostfix = 'DataList';
-  var buttonIdPostfix = 'Button';
+  let selectIdPostfix = 'Select';
+  let dataListIdPostfix = 'DataList';
+  let buttonIdPostfix = 'Button';
 
-  var buttonTextOpen = '▲';
-  var buttonTextClose = '▼';
+  let buttonTextOpen = '▲';
+  let buttonTextClose = '▼';
 
-  var HTMLOption = function (value, isSelected) {
+  let HTMLOption = function (value, isSelected) {
     return '<option ' + (isSelected ? 'selected ' : '') + 'value="' + value + '">' + value + '</option>';
   };
 
-  var rootElement = document.createElement('div');
-  var dataList = document.createElement('dataList');
-  var select = document.createElement('select');
-  var button = document.createElement('button');
-  var input = document.createElement('input');
+  let rootElement = document.createElement('div');
+  let dataList = document.createElement('dataList');
+  let select = document.createElement('select');
+  let button = document.createElement('button');
+  let input = document.createElement('input');
 
   rootElement.id = id;
   // @ts-ignore
@@ -31,10 +31,10 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
   dataList.id = <string>input.getAttribute('list');
   dataList.style.position = 'absolute';
 
-  var HTMLOptions = '';
-  for (var i = 0; i < optionsData.length; i++) {
-    var optionData = optionsData[i];
-    var isSelected = optionData === currentInputData;
+  let HTMLOptions = '';
+  for (let i = 0; i < optionsData.length; i++) {
+    let optionData = optionsData[i];
+    let isSelected = optionData === currentInputData;
     HTMLOptions += HTMLOption(optionData, isSelected);
   }
 
@@ -60,9 +60,8 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
       dataList.style.display = 'block';
       // @ts-ignore
       this.textContent = buttonTextOpen;
-      var currentOptionValue = input.value;
-      onClickOption(currentOptionValue);
-      for (var i = 0; i < optionsData.length; i++) {
+      let currentOptionValue = input.value;
+      for (let i = 0; i < optionsData.length; i++) {
         if (optionsData[i] === currentOptionValue) {
           select.selectedIndex = i;
           break;
@@ -75,6 +74,7 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
 
   function fillFormWithOptions(event) {
     input.value = optionsData[event.target.selectedIndex];
+    onClickOption(input.value);
     hideDataList();
   }
 
@@ -85,14 +85,11 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
   select.innerHTML = HTMLOptions;
   dataList.appendChild(select);
 
-  // var inputClone = input.cloneNode(true);
-  // inputClone.id = id + 'Input';
   rootElement.appendChild(input);
   rootElement.appendChild(dataList);
   rootElement.appendChild(button);
   selectedElement.parentElement.insertBefore(rootElement, selectedElement);
 
   selectedElement.parentNode.removeChild(selectedElement);
-  // input = inputClone;
   return id;
 };
