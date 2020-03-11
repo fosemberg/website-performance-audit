@@ -5,8 +5,8 @@
  * @param currentInputData - текущий объекта
  * @param onClickOption - callback, вызывается при выборе опции
  */
-export let createInputWithOptions = function (selectedElement, optionsData, currentInputData, onClickOption = (option: string) => {}) {
-  const {id} = selectedElement;
+export let createInputWithOptions = function (selectedInput, optionsData, currentInputData, onClickOption = (option: string) => {}) {
+  const {id} = selectedInput;
   let selectIdPostfix = 'Select';
   let dataListIdPostfix = 'DataList';
   let buttonIdPostfix = 'Button';
@@ -22,7 +22,9 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
   let dataList = document.createElement('dataList');
   let select = document.createElement('select');
   let button = document.createElement('button');
-  let input = document.createElement('input');
+  // let input = document.createElement('input');
+  var input = selectedInput.cloneNode(true);
+  input.id = id + 'Input';
 
   rootElement.id = id;
   // @ts-ignore
@@ -88,8 +90,9 @@ export let createInputWithOptions = function (selectedElement, optionsData, curr
   rootElement.appendChild(input);
   rootElement.appendChild(dataList);
   rootElement.appendChild(button);
-  selectedElement.parentElement.insertBefore(rootElement, selectedElement);
+  selectedInput.parentElement.insertBefore(rootElement, selectedInput);
 
-  selectedElement.parentNode.removeChild(selectedElement);
+  selectedInput.parentNode.removeChild(selectedInput);
+  // input = inputClone;
   return id;
 };
