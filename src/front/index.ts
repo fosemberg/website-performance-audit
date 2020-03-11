@@ -1,12 +1,22 @@
 import {createInputWithOptions} from "./createInputWithOptions";
 import {env} from "../../config/env";
 
-const {influxDB} = env;
+const environmentNames = env.environments.map(environment => environment.name)
+const siteNames = env.environments.reduce(
+  (environmentNames: string[], environment) =>
+    environmentNames.concat(
+      environment.sites.reduce(
+        (siteNames: string[], site) =>
+          environmentNames.includes(site.name)
+            ? siteNames
+            : siteNames.concat(site.name)
+        , []
+        )
+    ), []
+);
 
-console.log(env.influxDB.password);
-
-createInputWithOptions(document.getElementById('env'), [1, 2, 3, 4], 1);
-createInputWithOptions(document.getElementById('site'), [1, 2, 3, 4], 1);
+createInputWithOptions(document.getElementById('env'), environmentNames, environmentNames[0]);
+createInputWithOptions(document.getElementById('site'), siteNames, siteNames[0]);
 
 const formElem = document.getElementById('formElem');
 if (formElem) {
