@@ -1,7 +1,7 @@
 import {createInputWithOptions} from "./createInputWithOptions";
 import {env} from "../../config/env";
 
-const environmentNames = env.environments.map(environment => environment.name)
+const environmentNames = env.environments.map(environment => environment.name);
 const siteNames = env.environments.reduce(
   (environmentNames: string[], environment) =>
     environmentNames.concat(
@@ -17,6 +17,7 @@ const siteNames = env.environments.reduce(
 
 createInputWithOptions(document.getElementById('env'), environmentNames, environmentNames[0]);
 createInputWithOptions(document.getElementById('site'), siteNames, siteNames[0]);
+createInputWithOptions(document.getElementById('site'), siteNames, siteNames[1]);
 
 const formElem = document.getElementById('formElem');
 if (formElem) {
