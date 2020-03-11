@@ -16,7 +16,10 @@ app.get(
     res: Response
   ) => {
     try {
-      res.json(await measureSiteSpeed(query));
+      res.json({
+        status: 'testing',
+        buildParameters: query,
+      });
     } catch (e) {
       res.json({
         error: e.toString(),

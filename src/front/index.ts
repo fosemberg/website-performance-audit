@@ -22,13 +22,12 @@ onPickNewEnvironment(environmentNames[0]);
 const formElem = document.getElementById('formElem');
 if (formElem) {
   formElem.onsubmit = async (e) => {
+    e.preventDefault();
     const output = document.getElementById('output');
     if (output) {
       output.innerText = 'Sending...';
     }
     const url = 'http://fosemberg.dev.test-ru.dom:3000';
-
-    e.preventDefault();
 
     // @ts-ignore
     const formData = new FormData(formElem);
