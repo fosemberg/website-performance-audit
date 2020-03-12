@@ -1,15 +1,8 @@
 import {createInputWithOptions} from "./createInputWithOptions";
 import {env} from "../../config/env";
+import {getEnvironmentNames, getSiteNamesByEnvironmentName} from "../utils/envParser";
 
-const environmentNames = env.environments.map(environment => environment.name);
-
-const getSiteNamesByEnvironmentName = (environmentName) => {
-  for (const environment of env.environments) {
-    if (environmentName === environment.name) {
-      return environment.sites.map(site => site.name);
-    }
-  }
-};
+const environmentNames = getEnvironmentNames();
 
 const onPickNewEnvironment = (newEnvironment) => {
   const siteNames = getSiteNamesByEnvironmentName(newEnvironment);

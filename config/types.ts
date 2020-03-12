@@ -5,7 +5,7 @@ export interface SendProgress extends Input {
   progressMilliseconds: number,
 }
 
-export interface InputExternal {
+export interface ExternalInput {
   env: string,
   site: string,
   tag: string,

@@ -3,7 +3,7 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from '../../config/env';
-import {Input, InputExternal, Site} from "../../config/types";
+import {Input, ExternalInput, Site} from "../../config/types";
 import {getMixedTags} from "./getMixedTags";
 import {sendProgress} from "./sendProgress";
 
@@ -217,7 +217,7 @@ export async function measureSiteSpeed(
     site: siteName,
     tag: siteTag,
     iterations = env.iterations
-  }: InputExternal
+  }: ExternalInput
 ): Promise<Array<IPoint>> {
   if (environment === undefined) {
     const errorMsg = 'No env';
