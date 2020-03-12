@@ -1,0 +1,2313 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 1,
+  "iteration": 1583998831909,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 36,
+      "panels": [
+        {
+          "content": "#### The Time to Interactive (TTI)\r\nmetric measures how long it takes a page to become interactive. \"Interactive\" is defined as the point where:\r\n\r\n- The page has displayed useful content, which is measured with First Contentful Paint.\r\n- Event handlers are registered for most visible page elements.\r\n- The page responds to user interactions within 50 milliseconds.\r\n\r\nSome sites optimize content visibility at the expense of interactivity. This can create a frustrating user experience. The site appears to be ready, but when the user tries to interact with it, nothing happens.\r\n\r\n[link](https://developers.google.com/web/tools/lighthouse/audits/time-to-interactive)\r\n\r\n#### First Contentful Paint (FCP)\r\nmeasures the time from navigation to the time when the browser renders the first bit of content from the DOM. This is an important milestone for users because it provides feedback that the page is actually loading.\r\n\r\n[link](https://developers.google.com/web/tools/lighthouse/audits/first-contentful-paint)\r\n\r\n\r\n#### First CPU Idle\r\nThe First CPU Idle metric measures when a page is minimally interactive:\r\n\r\n- Most, but maybe not all, UI elements on the screen are interactive.\r\n- The page responds, on average, to most user input in a reasonable amount of time.\r\n\r\n[link](https://developers.google.com/web/tools/lighthouse/audits/first-cpu-idle)\r\n\r\n#### First Meaningful Paint\r\nPage load is a key aspect of how a user perceives the performance of your page.\r\n\r\nThis audit identifies the time at which the user feels that the primary content of the page is visible.\r\n\r\n[link](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint)\r\n\r\n#### Speed Index\r\nSpeed Index is a page load performance metric that shows you how quickly the contents of a page are visibly populated. The lower the score, the better.\r\n\r\n[link](https://developers.google.com/web/tools/lighthouse/audits/speed-index)",
+          "datasource": null,
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 1
+          },
+          "id": 26,
+          "mode": "markdown",
+          "options": {},
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FAQ",
+          "type": "text"
+        }
+      ],
+      "title": "FAQ",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 34,
+      "panels": [],
+      "title": "Run + Progress",
+      "type": "row"
+    },
+    {
+      "content": "<iframe src=\"http://website-performance-audit.fosemberg.dev.test-ru.dom/index.html\" style=\"\r\n  width: 100%;\r\n  height: 100%;\r\n  border: 0;\r\n\"></iframe>",
+      "datasource": null,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 2
+      },
+      "id": 16,
+      "mode": "html",
+      "options": {},
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Panel Title",
+      "type": "text"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 2
+      },
+      "id": 18,
+      "links": [],
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "decimals": 1,
+            "mappings": [],
+            "max": 100.1,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "title": "${__series.name}",
+            "unit": "percent"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_environment]] [[tag_site]] [[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "environment"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "site"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "progress",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "progressType",
+              "operator": "=",
+              "value": "percent"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "progress percent",
+      "type": "bargauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 19,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "decimals": 1,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "title": "${__series.name}",
+            "unit": "dtdurationms"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal"
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_environment]] [[tag_site]] [[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "environment"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "site"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "progress",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "progressType",
+              "operator": "=",
+              "value": "milliseconds"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "progress time",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 32,
+      "panels": [],
+      "title": "main",
+      "type": "row"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "id": 20,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "interactive",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "interactive mean",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 11
+      },
+      "id": 22,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-contentful-paint",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-contentful-paint mean",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 11
+      },
+      "id": 21,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-cpu-idle",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-cpu-idle mean",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      },
+      "id": 8,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]] [[tag_page]] [[tag_device]] [[tag_throttling]]",
+          "groupBy": [
+            {
+              "params": [
+                "throttling"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "page"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "interactive",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "interactive mean filter",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "id": 9,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]] [[tag_page]] [[tag_device]] [[tag_throttling]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "page"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "throttling"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-contentful-paint",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-contentful-paint mean filter",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "id": 12,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]] [[tag_page]] [[tag_device]] [[tag_throttling]]",
+          "groupBy": [
+            {
+              "params": [
+                "throttling"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "page"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-cpu-idle",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-cpu-idle mean filter",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 29
+      },
+      "id": 23,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-meaningful-paint",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-meaningful-paint mean",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 29
+      },
+      "id": 24,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]]",
+          "groupBy": [
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "speed-index",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "speed-index mean",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 0,
+        "y": 34
+      },
+      "id": 11,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]] [[tag_page]] [[tag_device]] [[tag_throttling]]",
+          "groupBy": [
+            {
+              "params": [
+                "throttling"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "page"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "first-meaningful-paint",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "first-meaningful-paint mean filter",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "lighthouse-InfluxDB",
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 8,
+        "y": 34
+      },
+      "id": 10,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showUnfilled": true
+      },
+      "pluginVersion": "6.6.2",
+      "targets": [
+        {
+          "alias": "[[tag_tag]] [[tag_page]] [[tag_device]] [[tag_throttling]]",
+          "groupBy": [
+            {
+              "params": [
+                "throttling"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "page"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tag"
+              ],
+              "type": "tag"
+            }
+          ],
+          "hide": false,
+          "limit": "",
+          "measurement": "speed-index",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "environment",
+              "operator": "=~",
+              "value": "/^$environment$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tag",
+              "operator": "=~",
+              "value": "/^$tag$/"
+            },
+            {
+              "condition": "AND",
+              "key": "page",
+              "operator": "=~",
+              "value": "/^$page$/"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$device$/"
+            },
+            {
+              "condition": "AND",
+              "key": "throttling",
+              "operator": "=~",
+              "value": "/^$throttling$/"
+            },
+            {
+              "condition": "AND",
+              "key": "iteration",
+              "operator": "=~",
+              "value": "/^$iteration$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "speed-index mean filter",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 47
+      },
+      "id": 30,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "lighthouse-InfluxDB",
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 48
+          },
+          "hiddenSeries": false,
+          "id": 6,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pluginVersion": "6.6.2",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "",
+              "groupBy": [
+                {
+                  "params": [
+                    "iteration"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "throttling"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "device"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "page"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "tag"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "hide": false,
+              "limit": "",
+              "measurement": "/^$measurement$/",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+              "rawQuery": false,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "environment",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "site",
+                  "operator": "=~",
+                  "value": "/^$site$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "tag",
+                  "operator": "=~",
+                  "value": "/^$tag$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "page",
+                  "operator": "=~",
+                  "value": "/^$page$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "device",
+                  "operator": "=~",
+                  "value": "/^$device$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "throttling",
+                  "operator": "=~",
+                  "value": "/^$throttling$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "iteration",
+                  "operator": "=~",
+                  "value": "/^$iteration$/"
+                }
+              ]
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "filter",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "datasource": "lighthouse-InfluxDB",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 54
+          },
+          "id": 7,
+          "options": {
+            "displayMode": "basic",
+            "fieldOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "defaults": {
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "overrides": [],
+              "values": false
+            },
+            "orientation": "horizontal",
+            "showUnfilled": true
+          },
+          "pluginVersion": "6.6.2",
+          "targets": [
+            {
+              "alias": "",
+              "groupBy": [
+                {
+                  "params": [
+                    "iteration"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "throttling"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "device"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "page"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "tag"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "hide": false,
+              "limit": "",
+              "measurement": "/^$measurement$/",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"value\" FROM /^$measurement$/ WHERE $timeFilter GROUP BY \"tag\", \"iteration\", \"throttling\", \"device\", \"page\"",
+              "rawQuery": false,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "environment",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "site",
+                  "operator": "=~",
+                  "value": "/^$site$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "tag",
+                  "operator": "=~",
+                  "value": "/^$tag$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "page",
+                  "operator": "=~",
+                  "value": "/^$page$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "device",
+                  "operator": "=~",
+                  "value": "/^$device$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "throttling",
+                  "operator": "=~",
+                  "value": "/^$throttling$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "iteration",
+                  "operator": "=~",
+                  "value": "/^$iteration$/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "filter",
+          "type": "bargauge"
+        }
+      ],
+      "title": "filter",
+      "type": "row"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "lighthouse",
+          "value": "lighthouse"
+        },
+        "hide": 2,
+        "label": null,
+        "name": "base",
+        "options": [
+          {
+            "selected": true,
+            "text": "lighthouse",
+            "value": "lighthouse"
+          }
+        ],
+        "query": "lighthouse",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "trunk",
+          "value": "trunk"
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"environment\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "environment",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"environment\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "some-site",
+          "value": "some-site"
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"site\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "site",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"site\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"tag\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "tag",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"tag\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "main",
+          "value": [
+            "main"
+          ]
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"page\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "page",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"page\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "desktop",
+          "value": [
+            "desktop"
+          ]
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"device\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"device\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "Off",
+          "value": [
+            "Off"
+          ]
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"throttling\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "throttling",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"throttling\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "1",
+          "value": [
+            "1"
+          ]
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW TAG VALUES WITH KEY = \"iteration\"",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "iteration",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"iteration\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "interactive",
+          "value": [
+            "interactive"
+          ]
+        },
+        "datasource": "lighthouse-InfluxDB",
+        "definition": "SHOW MEASUREMENTS",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "measurement",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "bootup-time",
+            "value": "bootup-time"
+          },
+          {
+            "selected": false,
+            "text": "dom-size",
+            "value": "dom-size"
+          },
+          {
+            "selected": false,
+            "text": "estimated-input-latency",
+            "value": "estimated-input-latency"
+          },
+          {
+            "selected": false,
+            "text": "first-contentful-paint",
+            "value": "first-contentful-paint"
+          },
+          {
+            "selected": false,
+            "text": "first-cpu-idle",
+            "value": "first-cpu-idle"
+          },
+          {
+            "selected": false,
+            "text": "first-meaningful-paint",
+            "value": "first-meaningful-paint"
+          },
+          {
+            "selected": true,
+            "text": "interactive",
+            "value": "interactive"
+          },
+          {
+            "selected": false,
+            "text": "mainthread-work-breakdown",
+            "value": "mainthread-work-breakdown"
+          },
+          {
+            "selected": false,
+            "text": "render-blocking-resources",
+            "value": "render-blocking-resources"
+          },
+          {
+            "selected": false,
+            "text": "speed-index",
+            "value": "speed-index"
+          },
+          {
+            "selected": false,
+            "text": "time-to-first-byte",
+            "value": "time-to-first-byte"
+          },
+          {
+            "selected": false,
+            "text": "total-byte-weight",
+            "value": "total-byte-weight"
+          },
+          {
+            "selected": false,
+            "text": "uses-responsive-images",
+            "value": "uses-responsive-images"
+          }
+        ],
+        "query": "SHOW MEASUREMENTS",
+        "refresh": 0,
+        "regex": "/^(?!progress)/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "lighthouse-influxDB",
+  "uid": "JvLMbJQZk",
+  "version": 98
+}
