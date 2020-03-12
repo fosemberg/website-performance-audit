@@ -1,7 +1,8 @@
 import {env as _env} from "../../config/env";
 import {Env, ExternalInput} from "../../config/types";
 
-export const getEnvironmentNames = (env: Env = _env): Array<string> => env.environments.map(environment => environment.name);
+export const getEnvironmentNames = (env: Env = _env): Array<string> =>
+  env.environments.map(environment => environment.name);
 
 export const getSiteNamesByEnvironmentName = (environmentName: string, env: Env = _env): Array<string> => {
   for (const environment of env.environments) {
