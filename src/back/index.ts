@@ -1,8 +1,9 @@
 import express, {Request, Response} from 'express';
-import {InputExternal} from "../../config/types";
+import {ExternalInput} from "../../config/types";
 import {env} from "../../config/env";
 import {measureSiteSpeed} from "./measureSiteSpeed";
 import cors from "cors";
+import {checkValidExternalInput} from "../utils/envParser";
 
 interface IQuery<T> {
   query: T;
@@ -15,18 +16,21 @@ const urlExampleMessage = 'http://example.com/?env=trunk&site=some-site&tag=1.32
 app.get(
   '/',
   async (
-    {query}: IQuery<InputExternal>,
+    {query}: IQuery<ExternalInput>,
     res: Response
   ) => {
     try {
-      const status = {
-        status: 'testing',
-        buildParameters: query,
-      };
-      res.json(status);
-      console.log(status);
-      measureSiteSpeed(query).then();
+      if (checkValidExternalInput(query) === true) {
+        const status = {
+          status: 'testing',
+          buildParameters: query,
+        };
+        res.json(status);
+        console.log(status);
+        measureSiteSpeed(query).then();
+      }
     } catch (e) {
+      console.error(e);
       res.json({
         error: e.toString(),
         "url-example": urlExampleMessage,

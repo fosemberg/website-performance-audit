@@ -1,6 +1,6 @@
 import {measureSiteSpeed} from './measureSiteSpeed'
 import {env} from "../../config/env";
-import {InputExternal} from "../../config/types";
+import {ExternalInput} from "../../config/types";
 
 const second = 1000;
 const minute = 60 * second;
@@ -8,7 +8,7 @@ const minute = 60 * second;
 describe("measureSiteSpeed", () => {
   test('measureSiteSpeed is working', async () => {
 
-    const input: InputExternal = {
+    const input: ExternalInput = {
       iterations: 3,
       env: "trunk",
       site: "site-global",
