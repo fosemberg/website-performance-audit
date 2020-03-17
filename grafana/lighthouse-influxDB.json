@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1583998831909,
+  "iteration": 1584445357910,
   "links": [],
   "panels": [
     {
@@ -1978,7 +1978,7 @@
       "type": "row"
     }
   ],
-  "refresh": "5s",
+  "refresh": false,
   "schemaVersion": 22,
   "style": "dark",
   "tags": [],
@@ -2289,8 +2289,8 @@
     ]
   },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "2020-03-11T15:50:36.208Z",
+    "to": "2020-03-11T16:09:45.792Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2309,5 +2309,5 @@
   "timezone": "",
   "title": "lighthouse-influxDB",
   "uid": "JvLMbJQZk",
-  "version": 98
+  "version": 99
 }
