@@ -1,8 +1,8 @@
-import lighthouse from 'lighthouse/lighthouse-core';
 import * as Influx from 'influx';
 import {IPoint, ISchemaOptions} from 'influx';
 import {env} from '../../config/env';
 import {SendProgress} from "../../config/types";
+import {createInfluxDatabaseIfNotExist} from "./createInfluxDatabaseIfNotExist";
 
 const {influxDB: influxDBConfig} = env;
 
@@ -10,6 +10,8 @@ interface SchemaItem {
   measurement: string,
   score: Influx.FieldType,
 }
+
+const databaseName = 'lighthouse';
 
 const schemaItems: Array<SchemaItem> = [
   {measurement: 'progress', score: Influx.FieldType.INTEGER},
@@ -85,16 +87,7 @@ export async function sendProgress(
     }
   ];
 
-  const names = await influx.getDatabaseNames();
-  if (!names.includes('lighthouse')) {
-    await influx.createDatabase('lighthouse');
-    await influx.createRetentionPolicy('lighthouse', {
-      duration: '30d',
-      database: 'lighthouse',
-      replication: 1,
-      isDefault: true
-    });
-  }
+  await createInfluxDatabaseIfNotExist(influx, databaseName);
   await influx.writePoints(points);
   console.log('Sending progress...');
   console.log(points);
