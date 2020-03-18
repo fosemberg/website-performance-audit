@@ -6,6 +6,8 @@ import {env} from '../../config/env';
 import {Input, ExternalInput, Site} from "../../config/types";
 import {getMixedTags} from "./getMixedTags";
 import {sendProgress} from "./sendProgress";
+import {createInfluxDatabaseIfNotExist} from "./createInfluxDatabaseIfNotExist";
+import {checkValidExternalInput} from "../utils/envParser";
 
 const {chromeFlags, influxDB: influxDBConfig} = env;
 
@@ -13,6 +15,8 @@ interface SchemaItem {
   measurement: string,
   score: Influx.FieldType,
 }
+
+const databaseName = 'lighthouse';
 
 const calcMean = (numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 const day = 1000 * 60 * 60 * 24;
@@ -219,19 +223,12 @@ export async function measureSiteSpeed(
     iterations = env.iterations
   }: ExternalInput
 ): Promise<Array<IPoint>> {
-  if (environment === undefined) {
-    const errorMsg = 'No env';
-    console.error(errorMsg);
-    throw new Error(errorMsg);
-  } else if (siteName === undefined) {
-    const errorMsg = 'No site';
-    console.error(errorMsg);
-    throw new Error(errorMsg);
-  } else if (siteTag === undefined) {
-    const errorMsg = 'No tag';
-    console.error(errorMsg);
-    throw new Error(errorMsg);
-  }
+  checkValidExternalInput({
+    env: environment,
+    site: siteName,
+    tag: siteTag,
+    iterations
+  })
 
   const points: Array<IPoint> = await createTestSite({environment, siteName, siteTag, iterations});
 
@@ -239,16 +236,7 @@ export async function measureSiteSpeed(
   console.log(JSON.stringify(points));
   console.log('Writing results...');
 
-  const names = await influx.getDatabaseNames();
-  if (!names.includes('lighthouse')) {
-    await influx.createDatabase('lighthouse');
-    await influx.createRetentionPolicy('lighthouse', {
-      duration: '30d',
-      database: 'lighthouse',
-      replication: 1,
-      isDefault: true
-    });
-  }
+  await createInfluxDatabaseIfNotExist(influx, databaseName);
   await influx.writePoints(points);
   console.info('Tests are done');
   return points;

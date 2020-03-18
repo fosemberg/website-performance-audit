@@ -1,8 +1,9 @@
 import express, {Request, Response} from 'express';
+import cors from "cors";
+
 import {ExternalInput} from "../../config/types";
 import {env} from "../../config/env";
 import {measureSiteSpeed} from "./measureSiteSpeed";
-import cors from "cors";
 import {checkValidExternalInput} from "../utils/envParser";
 
 interface IQuery<T> {
