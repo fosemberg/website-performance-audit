@@ -5,13 +5,12 @@ import {SendProgress} from "../../config/types";
 import {createInfluxDatabaseIfNotExist} from "./createInfluxDatabaseIfNotExist";
 
 const {influxDB: influxDBConfig} = env;
+const {database: databaseName} = influxDBConfig;
 
 interface SchemaItem {
   measurement: string,
   score: Influx.FieldType,
 }
-
-const databaseName = 'lighthouse';
 
 const schemaItems: Array<SchemaItem> = [
   {measurement: 'progress', score: Influx.FieldType.INTEGER},
