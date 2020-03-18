@@ -216,19 +216,12 @@ function progressCallback(progress) {
 
 export async function measureSiteSpeed(
   {
-    env: environment,
-    site: siteName,
-    tag: siteTag,
-    iterations = env.iterations
-  }: ExternalInput
+    environment,
+    siteName,
+    siteTag,
+    iterations,
+  }: Input
 ): Promise<Array<IPoint>> {
-  checkValidExternalInput({
-    env: environment,
-    site: siteName,
-    tag: siteTag,
-    iterations
-  })
-
   const points: Array<IPoint> = await createTestSite({environment, siteName, siteTag, iterations});
 
   console.log('Metrics for sending to influxdb:');
