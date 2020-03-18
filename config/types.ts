@@ -49,11 +49,15 @@ export interface TagWithValues {
   values: Array<TagValue>
 }
 
+type InfluxDB = ISingleHostConfig & {
+  database: string;
+}
+
 export interface Env {
   port?: number,
   origin?: string,
   iterations: number,
-  influxDB: ISingleHostConfig,
+  influxDB: InfluxDB,
   chromeFlags: Array<string>,
   lighthouseFlags: LH.SharedFlagsSettings,
   environments: Array<Environment>,

@@ -10,13 +10,12 @@ import {createInfluxDatabaseIfNotExist} from "./createInfluxDatabaseIfNotExist";
 import {checkValidExternalInput} from "../utils/envParser";
 
 const {chromeFlags, influxDB: influxDBConfig} = env;
+const {database: databaseName} = influxDBConfig;
 
 interface SchemaItem {
   measurement: string,
   score: Influx.FieldType,
 }
-
-const databaseName = 'lighthouse';
 
 const calcMean = (numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 const day = 1000 * 60 * 60 * 24;
