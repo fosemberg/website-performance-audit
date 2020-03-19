@@ -2,9 +2,15 @@ import {Env} from './types';
 
 export const env: Env = {
   port: 3000,
-  origin: 'http://example.localhost',
+  origin: 'http://fosemberg.dev.test-ru.dom',
+  fetchOnFinish: {
+    url: 'http://fosemberg.dev.test-ru.dom:3001',
+    isFetch: true,
+    isAddParams: true,
+    description: 'run load test',
+  },
   influxDB: {
-    host: 'example.localhost',
+    host: 'fosemberg.dev.test-ru.dom',
     port: 8086,
     database: 'lighthouse',
     password    :    'some-pass'
@@ -36,7 +42,7 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://example.localhost"
+          url: "https://www.rc.test-ru.dom"
         },
       ]
     },
@@ -45,11 +51,11 @@ export const env: Env = {
       sites: [
         {
           name: "some-site",
-          url: "http://example.localhost"
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/some-site"
         },
         {
           name: "lk",
-          url: "http://example.localhost"
+          url: "http://test.fosemberg.dev.test-ru.dom/trunk/lk"
         }
       ]
     },
@@ -64,7 +70,7 @@ export const env: Env = {
         },
         {
           name: "some",
-          url: "/ru/some/"
+          url: "/ru/path/some/"
         }
       ]
     },

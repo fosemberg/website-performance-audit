@@ -1,11 +1,12 @@
 import express, {Response} from 'express';
 import cors from "cors";
 
-import {ExternalInput} from "../../config/types";
+import {ExternalInput, FetchOnFinishConfig} from "../../config/types";
 import {env} from "../../config/env";
 import {measureSiteSpeed} from "./measureSiteSpeed";
 import {checkValidExternalInput, getEnvironmentNames, getSiteNamesByEnvironmentName} from "../utils/envParser";
 import {convertExternalInputToInternal} from "./convertExternalInputToInternal";
+import {fetchOnFinishIfNeed} from "./fetchOnFinishIfNeed";
 
 interface IQuery<T> {
   query: T;
@@ -24,10 +25,13 @@ const urlExampleMessage = `http://example.com/?env=${exampleEnvironmentName}&sit
 app.get(
   '/',
   async (
-    {query}: IQuery<ExternalInput>,
-    res: Response
+    req: IQuery<ExternalInput>,
+    res: Response,
+    next
   ) => {
     try {
+      const {query} = req;
+      console.info('Start load test with parameters: ', query);
       checkValidExternalInput(query);
       const status = {
         status: 'testing',
@@ -35,7 +39,8 @@ app.get(
       };
       res.json(status);
       console.log(status);
-      measureSiteSpeed(convertExternalInputToInternal(query)).then();
+      measureSiteSpeed(convertExternalInputToInternal(query))
+        .then(() => fetchOnFinishIfNeed(query, env.fetchOnFinish));
     } catch (e) {
       console.error(e);
       res.json({

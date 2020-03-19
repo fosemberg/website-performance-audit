@@ -31,36 +31,44 @@ export interface Site {
 
 interface Environment {
   name: string,
-  sites: Array<Site>
+  sites: Array<Site>,
 }
 
 interface SiteWithPages {
   name: string,
-  pages: Array<Site>
+  pages: Array<Site>,
 }
 
 interface TagValue {
   name: string,
-  lighthouseFlags: LH.SharedFlagsSettings
+  lighthouseFlags: LH.SharedFlagsSettings,
 }
 
 export interface TagWithValues {
   name: string,
-  values: Array<TagValue>
+  values: Array<TagValue>,
 }
 
 type InfluxDB = ISingleHostConfig & {
-  database: string;
+  database: string,
+}
+
+export interface FetchOnFinishConfig {
+  url: string,
+  isFetch: boolean,
+  isAddParams: boolean,
+  description?: string,
 }
 
 export interface Env {
   port?: number,
   origin?: string,
+  fetchOnFinish?: FetchOnFinishConfig,
   iterations: number,
   influxDB: InfluxDB,
   chromeFlags: Array<string>,
   lighthouseFlags: LH.SharedFlagsSettings,
   environments: Array<Environment>,
   sites: Array<SiteWithPages>,
-  tags: Array<TagWithValues>
+  tags: Array<TagWithValues>,
 }
