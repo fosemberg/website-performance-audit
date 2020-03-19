@@ -12,4 +12,3 @@ export const createInfluxDatabaseIfNotExist = async (influx: Influx.InfluxDB, da
     });
   }
 }
-
