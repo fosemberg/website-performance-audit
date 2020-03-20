@@ -1,5 +1,6 @@
 build
 web
+config/env.ts
 
 # Logs
 logs
