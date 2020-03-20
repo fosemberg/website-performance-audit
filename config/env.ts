@@ -1,10 +1,10 @@
 import {Env} from './types';
 
 export const env: Env = {
-  port: 3000,
+  port: 3001,
   origin: 'http://fosemberg.dev.test-ru.dom',
   fetchOnFinish: {
-    url: 'http://fosemberg.dev.test-ru.dom:3001',
+    url: 'http://fosemberg.dev.test-ru.dom:3002',
     isFetch: true,
     isAddParams: true,
     description: 'run load test',
