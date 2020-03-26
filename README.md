@@ -3,12 +3,13 @@
 Проект создан для измерения скорости сайтов.
 
 #### Зависимости
-1. chrome
+1. [chrome](scripts\install\install-chrome.sh)
 2. [influxdb](scripts\install\install-influxdb.sh)
 3. [grafana](scripts\install\install-grafana.sh)
 
 #### Установка
 1. скопировать [конфиг ```env.example.ts```](config/env.example.ts) с новым названием ```env.ts```
+  ```cp config/env.example.ts config/env.ts```
 2. установить nodejs зависимости```yarn```
 3. собрать и запустить сервис ```yarn run build-start```
 4. импортировать [grafana шаблон](grafana\lighthouse-influxDB.json) в grafana

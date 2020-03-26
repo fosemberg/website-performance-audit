@@ -15,12 +15,13 @@ interface IQuery<T> {
 const app = express();
 app.use(cors());
 
+const serverUrl = `${env.origin}:${env.port}`;
 const environmentNames = getEnvironmentNames();
 const exampleEnvironmentName = environmentNames[0] || '';
 const siteNames = getSiteNamesByEnvironmentName(exampleEnvironmentName);
 const exampleSiteName = siteNames[0] || '';
 const exampleTagName = '1.32';
-const urlExampleMessage = `http://example.com/?env=${exampleEnvironmentName}&site=${exampleSiteName}&tag=${exampleTagName}`;
+const urlExampleMessage = `${serverUrl}/?env=${exampleEnvironmentName}&site=${exampleSiteName}&tag=${exampleTagName}`;
 
 app.get(
   '/',
@@ -58,7 +59,12 @@ app.get('/help', ({}, res: Response) => {
   }
 );
 
+if (env.isServeFrontStatic) {
+  app.use('/static', express.static('web'));
+  console.info(`Application front available at: ${serverUrl}/static/index.html`);
+}
+
 const port = env.port || 3000;
 
-console.log(`Server start on port: ${port}`);
+console.log(`Server start on: ${serverUrl}`);
 app.listen(env.port || 3000);
