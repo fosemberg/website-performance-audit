@@ -60,7 +60,7 @@ app.get('/help', ({}, res: Response) => {
 );
 
 if (env.isServeFrontStatic) {
-  app.use('/static', express.static('web'));
+  app.use('/static', express.static(`${__dirname}/../../../web`));
   console.info(`Application front available at: ${serverUrl}/static/index.html`);
 }
 
