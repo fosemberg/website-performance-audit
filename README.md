@@ -14,7 +14,6 @@
 3. собрать и запустить сервис ```yarn run build-start```
 4. импортировать [grafana шаблон](grafana\lighthouse-influxDB.json) в grafana
 5. разрешить в grafana вставлять iframe в текстовый виджет
-6. Скопировать содержимое web папки после сборки на nginx
 
 #### Использование
 
