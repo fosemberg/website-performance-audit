@@ -1,14 +1,13 @@
 {
   "scripts": {
     "dev": "ts-node src/back/measureSiteSpeed.ts",
-    "build-ts": "tsc",
-    "move-front-to-web": "cpx \"public/**/*\" web",
-    "build-front": "npm run webpack && npm run move-front-to-web",
-    "build": "npm run build-ts && npm run build-front",
+    "build-start": "npm run build && npm run start-back",
+    "build-front": "webpack && cpx \"public/**/*\" web",
+    "build": "tsc && npm run build-front",
     "start-back": "node ./build/src/back/index.js",
     "test": "jest",
-    "build-start": "npm run build && npm run start-back",
-    "webpack": "webpack"
+    "build-grafana": "ts-node scripts/ts/build-grafana.ts",
+    "init": "npm run build-grafana && cpx config/env.example.ts config/env.ts"
   },
   "dependencies": {
     "axios": "^0.19.2",

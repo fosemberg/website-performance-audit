@@ -1,6 +1,7 @@
 build
 web
 config/env.ts
+grafana/build
 
 # Logs
 logs

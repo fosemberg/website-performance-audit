@@ -1,4 +1,4 @@
-### lighthouse-influxdb-grafana
+### site-performance
 
 Проект создан для измерения скорости сайтов.
 
@@ -8,12 +8,15 @@
 3. [grafana](scripts\install\install-grafana.sh)
 
 #### Установка
-1. скопировать [конфиг ```env.example.ts```](config/env.example.ts) с новым названием ```env.ts```
-  ```cp config/env.example.ts config/env.ts```
-2. установить nodejs зависимости```yarn```
-3. собрать и запустить сервис ```yarn run build-start```
-4. импортировать [grafana шаблон](grafana\lighthouse-influxDB.json) в grafana
-5. разрешить в grafana вставлять iframe в текстовый виджет
+1. установить nodejs зависимости.
+run: ```yarn```
+2. скопировать [конфиг ```env.example.ts```](config/env.example.ts) с новым названием ```env.ts```.
+  run: ```cp config/env.example.ts config/env.ts```
+3. Сконфигурировать ```config/env.ts```. Не забыть заполнить ```origin```, ```port``` (как можно будет достучаться до приложение).  
+4. Собрать grafana config. run: ```yarn run build-grafana``` (соберется ```grafana/build/site-performance.json``` из ```grafana/raw/site-performance.json``` и ```config/env.ts```).
+5. собрать и запустить сервис. run: ```yarn run build-start```
+6. разрешить в grafana вставлять iframe в текстовый виджет. run: ```sudo sed -i 's/;disable_sanitize_html = true/disable_sanitize_html = true/g' /etc/grafana/grafana.ini```
+7. импортировать [grafana шаблон](grafana\build/site-performance.json) в grafana
 
 #### Использование
 
