@@ -1,6 +1,6 @@
 /**
  * создание селектора из массива данных
- * @param input - форма, в которой находится селектор
+ * @param selectedInput - форма, в которой находится селектор
  * @param optionsData - массив данных для селектора
  * @param currentInputData - текущий объекта
  * @param onClickOption - callback, вызывается при выборе опции
