@@ -6,8 +6,7 @@
     "build": "tsc && npm run build-front",
     "start-back": "node ./build/src/back/index.js",
     "test": "jest",
-    "build-grafana": "ts-node scripts/ts/build-grafana.ts",
-    "init": "npm run build-grafana && cpx config/env.example.ts config/env.ts"
+    "build-grafana": "ts-node scripts/ts/build-grafana.ts"
   },
   "dependencies": {
     "axios": "^0.19.2",
