@@ -189,23 +189,29 @@ async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<
   const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags);
   const measurements: Array<IPoint> = [];
   for (let audit of audits) {
-    const score = results.audits[audit].score;
-    let value = results.audits[audit].rawValue;
-    // по хорошему null быть не должно
-    if (value === null) {
-      value = -1;
-    }
-    console.log('audit: ' + audit + ' value: ' + value);
-
-    const measurement: IPoint = {
-      measurement: audit,
-      tags,
-      fields: {
-        score,
-        value,
+    try {
+      const resultAudit = results.audits[audit];
+      const { scoreDisplayMode, score } = resultAudit;
+      const valueName = `${scoreDisplayMode}Value`;
+      let value = results.audits[audit][valueName];
+      // по хорошему null быть не должно
+      if (value === null) {
+        value = -1;
       }
-    };
-    measurements.push(measurement);
+      console.log('audit: ' + audit + ' value: ' + value);
+
+      const measurement: IPoint = {
+        measurement: audit,
+        tags,
+        fields: {
+          score,
+          value,
+        }
+      };
+      measurements.push(measurement);
+    } catch (e) {
+      console.error(e);
+    }
   }
   return measurements;
 }

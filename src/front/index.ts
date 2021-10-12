@@ -24,6 +24,7 @@ if (formElem) {
 
     // @ts-ignore
     const formData = new FormData(formElem);
+    // @ts-ignore
     const getParams = `?${new URLSearchParams(formData).toString()}`;
     console.log(formData);
 
@@ -38,7 +39,7 @@ if (formElem) {
       console.log(result);
     } catch (e) {
       if (output) {
-        output.innerText = `url: ${url}\n${e.toString()}`;
+        output.innerText = `url: ${url}\n${String(e)}`;
       }
       console.error(e);
     }

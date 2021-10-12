@@ -14,13 +14,13 @@
   "typeRoots": [
     "@types",
     "./node_modules/@types",
-    "./node_modules/lighthouse/typings"
+    "./node_modules/lighthouse/types"
   ],
   "include": [
     "./src/**/*.ts",
     "./config/**/*.ts",
     "./scripts/ts/**/*.ts",
-    "./node_modules/lighthouse/typings/*.d.ts"
+    "./node_modules/lighthouse/types/*.d.ts"
   ],
   "exclude": [
     "./src/**/*.test.ts"

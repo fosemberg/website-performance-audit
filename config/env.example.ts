@@ -70,13 +70,13 @@ export const env: Env = {
         {
           name: "mobile",
           lighthouseFlags: {
-            emulatedFormFactor: "mobile",
+            emulatedUserAgent: "mobile",
           },
         },
         {
           name: "desktop",
           lighthouseFlags: {
-            emulatedFormFactor: "desktop"
+            emulatedUserAgent: "desktop"
           },
         }
       ]

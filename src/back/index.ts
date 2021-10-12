@@ -45,7 +45,7 @@ app.get(
     } catch (e) {
       console.error(e);
       res.json({
-        error: e.toString(),
+        error: String(e),
         "url-example": urlExampleMessage,
       });
     }
