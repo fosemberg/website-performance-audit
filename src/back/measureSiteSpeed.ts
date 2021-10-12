@@ -22,9 +22,12 @@ const day = 1000 * 60 * 60 * 24;
 
 const schemaItems: Array<SchemaItem> = [
   {measurement: 'first-contentful-paint', score: Influx.FieldType.INTEGER},
-  {measurement: 'first-cpu-idle', score: Influx.FieldType.INTEGER},
+  {measurement: 'largest-contentful-paint', score: Influx.FieldType.INTEGER},
   {measurement: 'first-meaningful-paint', score: Influx.FieldType.INTEGER},
+  {measurement: 'first-cpu-idle', score: Influx.FieldType.INTEGER},
   {measurement: 'speed-index', score: Influx.FieldType.INTEGER},
+  {measurement: 'total-blocking-time', score: Influx.FieldType.INTEGER},
+  {measurement: 'cumulative-layout-shift', score: Influx.FieldType.INTEGER},
   {measurement: 'estimated-input-latency', score: Influx.FieldType.INTEGER},
   {measurement: 'time-to-first-byte', score: Influx.FieldType.INTEGER},
   {measurement: 'interactive', score: Influx.FieldType.INTEGER},
@@ -187,6 +190,7 @@ async function createTestIteration(tags, chromeFlags, lighthouseFlags): Promise<
   console.log(`Starting test: ${tags.url}, iteration: ${tags.iteration}`);
 
   const results = await launchChromeAndRunLighthouse(tags.url, chromeFlags, lighthouseFlags);
+  console.log('fosemberg', 'results', JSON.stringify(results))
   const measurements: Array<IPoint> = [];
   for (let audit of audits) {
     try {
