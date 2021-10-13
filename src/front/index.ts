@@ -20,7 +20,9 @@ if (formElem) {
     if (output) {
       output.innerText = 'Sending...';
     }
-    const backUrl = `${env.origin}:${env.port}`;
+    const backUrl = env.backUrl
+      ? env.backUrl
+      : `${env.origin}:${env.port}`;
 
     // @ts-ignore
     const formData = new FormData(formElem);

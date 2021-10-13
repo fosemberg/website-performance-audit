@@ -3,6 +3,8 @@ import {Env} from './types';
 export const env: Env = {
   port: 3001,
   origin: 'http://fosemberg.dev.test-ru.dom',
+  backUrl: 'https://fosemberg.dev.test-ru.dom/website-performance-audit-back',
+  frontUrl: 'https://fosemberg.dev.test-ru.dom/website-performance-audit-front',
   isServeFrontStatic: true,
   fetchOnFinish: {
     url: 'http://fosemberg.dev.test-ru.dom:3002',

@@ -63,6 +63,8 @@ export interface FetchOnFinishConfig {
 export interface Env {
   port?: number,
   origin?: string,
+  backUrl?: string,
+  frontUrl?: string,
   isServeFrontStatic: boolean,
   fetchOnFinish?: FetchOnFinishConfig,
   iterations: number,

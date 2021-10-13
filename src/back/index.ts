@@ -15,7 +15,9 @@ interface IQuery<T> {
 const app = express();
 app.use(cors());
 
-const serverUrl = `${env.origin}:${env.port}`;
+const serverUrl = env.backUrl
+  ? env.backUrl
+  : `${env.origin}:${env.port}`;
 const environmentNames = getEnvironmentNames();
 const exampleEnvironmentName = environmentNames[0] || '';
 const siteNames = getSiteNamesByEnvironmentName(exampleEnvironmentName);
@@ -61,7 +63,10 @@ app.get('/help', ({}, res: Response) => {
 
 if (env.isServeFrontStatic) {
   app.use('/static', express.static(`${__dirname}/../../../web`));
-  console.info(`Application front available at: ${serverUrl}/static/index.html`);
+  const frontUrl = env.frontUrl
+    ? env.frontUrl
+    : `${serverUrl}/static/index.html`
+  console.info(`Application front available at: ${frontUrl}`);
 }
 
 const port = env.port || 3000;
