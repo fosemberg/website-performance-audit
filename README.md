@@ -33,3 +33,7 @@ run: ```yarn```
 4. посмотреть результаты можно через grafana
 
 [lighthouse configuration docs](https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md)
+
+#### TODO
+Сейчас при сборке `npm run build` скорей всего будут ошибки из-аз typescript, но проект все равно соберется в папку build и будет работать.  
+Надо бы исправить ошибки при сборке.
